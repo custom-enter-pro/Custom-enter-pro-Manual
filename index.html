@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Official Manual - Custom Enter Pro</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --primary: #0052D4;
+    --primary-light: #4364F7;
+    --primary-dark: #003285;
+    --accent: #ff9800;
+    --bg: #f8fafc;
+    --text-main: #1e293b;
+    --text-muted: #475569;
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+    
+    /* テーマカラー */
+    --clr-profile: #0052D4;    
+    --clr-countdown: #FF5722;  
+    --clr-widget: #FFD600;     
+    --clr-guard: #e63946;      
+    --clr-team: #6a1b9a;       
+  }
+  
+  html[lang="en"] .ja, html[lang="ja"] .en { display: none !important; }
+  
+  /* 文字サイズを全体的に大きく設定 */
+  body { 
+    font-family: 'Inter', 'Noto Sans JP', sans-serif; 
+    background-color: var(--bg); 
+    color: var(--text-main); 
+    margin: 0; 
+    padding: 0; 
+    line-height: 1.8; 
+    font-size: 16px; /* ベースサイズを拡大 */
+    overflow-x: hidden;
+  }
+  
+  header { 
+    background: rgba(255, 255, 255, 0.95); 
+    backdrop-filter: blur(10px);
+    padding: 15px 5%; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05); 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+  }
+  
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; font-size: 24px; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+  
+  .lang-switch { display: flex; gap: 8px; background: #f1f5f9; padding: 5px; border-radius: 8px; }
+  .lang-switch button { background: transparent; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 700; color: var(--text-muted); transition: 0.3s; }
+  .lang-switch button.active { background: #fff; color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+  /* ヒーローセクション */
+  .hero-wrapper {
+    position: relative;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light), #6FB1FC);
+    color: white;
+    padding: 80px 20px 80px; 
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero-wrapper::before {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    animation: rotateBg 30s linear infinite;
+  }
+  @keyframes rotateBg { 100% { transform: rotate(360deg); } }
+
+  .hero-content-inner { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+  .hero-wrapper h1 { font-size: clamp(32px, 5vw, 48px); margin: 0 0 15px 0; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+  .hero-wrapper p { font-size: 18px; opacity: 0.95; margin: 0; line-height: 1.6; }
+
+  /* 波のSVG（重なり解消済） */
+  .wave-divider { 
+    position: absolute; bottom: -1px; left: 0; width: 100%; height: 80px; 
+    overflow: hidden; line-height: 0; z-index: 1; 
+  }
+  .wave-divider svg { display: block; width: 100%; height: 100%; }
+  .wave-divider .shape-fill { fill: var(--bg); }
+
+  /* メインコンテナ */
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 10; }
+
+  /* 検索ボックスと機能索引 */
+  .search-section { 
+    background: var(--card-bg); border-radius: 16px; padding: 30px; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid var(--border); 
+    margin-top: 20px; margin-bottom: 60px; position: relative; z-index: 20; 
+  }
+  .search-box { display: flex; align-items: center; background: #f8fafc; border-radius: 12px; padding: 15px 20px; border: 2px solid transparent; transition: 0.3s; margin-bottom: 25px; }
+  .search-box:focus-within { border-color: var(--primary); background: #fff; box-shadow: 0 4px 15px rgba(0,82,212,0.08); }
+  .search-box input { border: none; background: transparent; width: 100%; font-size: 18px; outline: none; color: var(--text-main); font-weight: 600; margin-left: 12px; }
+  
+  .glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; max-height: 380px; overflow-y: auto; padding-right: 10px; }
+  .glossary-grid::-webkit-scrollbar { width: 8px; }
+  .glossary-grid::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+  .glossary-item { background: #fff; border: 1px solid var(--border); padding: 18px; border-radius: 12px; transition: all 0.2s; cursor: pointer; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; gap: 6px; }
+  .glossary-item:hover { border-color: var(--primary); background: var(--primary-light); transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,82,212,0.15); }
+  .glossary-item:hover strong, .glossary-item:hover span { color: white; }
+  .glossary-item strong { font-size: 16px; color: var(--primary-dark); display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+  .glossary-item span { font-size: 14px; color: var(--text-muted); line-height: 1.5; transition: 0.2s; }
+
+  /* 章タイトル */
+  h2.chapter-title { margin: 80px 0 40px; font-size: 30px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 15px; padding-bottom: 15px; border-bottom: 2px solid var(--border); scroll-margin-top: 100px; }
+  h2.chapter-title::before { content: ''; display: block; width: 8px; height: 32px; background: linear-gradient(to bottom, var(--primary), var(--accent)); border-radius: 4px; }
+
+  /* 構造: 機能ブロック（基本説明は常に表示） */
+  .feature-block { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 40px; margin-bottom: 30px; box-shadow: 0 6px 20px rgba(0,0,0,0.03); scroll-margin-top: 120px; }
+  .feature-header { display: flex; align-items: flex-start; gap: 25px; margin-bottom: 20px; }
+  .feature-icon { font-size: 32px; flex-shrink: 0; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border-radius: 16px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
+  .feature-text h3 { margin: 0 0 10px 0; font-size: 22px; color: var(--text-main); font-weight: 800; display: flex; align-items: center; }
+  .feature-text p { margin: 0; font-size: 16px; color: var(--text-muted); line-height: 1.8; }
+  .feature-text ul { padding-left: 20px; margin: 10px 0 0 0; font-size: 15px; color: var(--text-muted); }
+
+  /* 詳細を隠すアコーディオン */
+  .manual-accordion { background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; margin-top: 25px; transition: 0.3s; }
+  .manual-accordion[open] { background: #fff; border-color: var(--primary-light); box-shadow: 0 5px 20px rgba(0,82,212,0.08); }
+  
+  .manual-summary { padding: 15px 25px; font-weight: 700; font-size: 16px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--primary-dark); transition: 0.2s; border-radius: 12px; }
+  .manual-summary::-webkit-details-marker { display: none; }
+  .manual-summary:hover { background: #f1f5f9; }
+  .manual-summary::after { content: '▼'; font-size: 18px; color: var(--primary); transition: 0.3s; }
+  .manual-accordion[open] .manual-summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: 1px solid var(--border); }
+  .manual-accordion[open] .manual-summary::after { transform: rotate(180deg); }
+  
+  .manual-content { padding: 30px; font-size: 15px; color: var(--text-muted); line-height: 1.8; animation: fadeIn 0.3s; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+  kbd { background: #e2e8f0; border-radius: 6px; border: 1px solid #cbd5e1; border-bottom-width: 2px; padding: 2px 8px; font-family: monospace; font-size: 14px; font-weight: 700; color: #334155; }
+  
+  /* メソッド比較テーブル */
+  .method-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .method-table th, .method-table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.7; }
+  .method-table th { background: #f8fafc; font-weight: 700; color: var(--primary-dark); width: 35%; border-right: 1px solid var(--border); vertical-align: top; }
+  .method-table tr:last-child td, .method-table tr:last-child th { border-bottom: none; }
+  .method-table tr:hover td { background: #f0f7ff; }
+  
+  .badge { display:inline-block; padding:3px 8px; border-radius:6px; font-size:12px; font-weight:bold; margin-top:6px; }
+  .badge-normal { background:#e2e8f0; color:#475569; border:1px solid #cbd5e1; }
+  .badge-adv { background:#fff8e1; color:#f57f17; border:1px solid #ffe082; }
+  .badge-ult { background:#ffebee; color:#e63946; border:1px solid #ffcdd2; }
+
+  /* FAQ アコーディオン */
+  .faq-accordion { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 15px; transition: 0.3s; }
+  .faq-accordion[open] { border-color: var(--primary-light); box-shadow: 0 5px 25px rgba(0,82,212,0.1); }
+  .faq-summary { padding: 22px 25px; font-weight: 700; font-size: 17px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border-radius: 12px; color: var(--text-main); }
+  .faq-summary::-webkit-details-marker { display: none; }
+  .faq-summary:hover { background: #f1f5f9; }
+  .faq-summary::after { content: '+'; font-size: 26px; color: var(--primary); transition: 0.3s; line-height: 1; font-weight: 400; }
+  .faq-accordion[open] .faq-summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: 1px solid var(--border); background: #fff; }
+  .faq-accordion[open] .faq-summary::after { transform: rotate(45deg); }
+  .faq-content { padding: 25px; font-size: 16px; color: var(--text-muted); line-height: 1.8; animation: fadeIn 0.3s; }
+
+  /* トグルボタンとアイコン用のスタイル */
+  .toggle-all-container { display: flex; gap: 10px; }
+  .toggle-all-btn { background: #fff; border: 1px solid var(--border); color: var(--primary); padding: 6px 14px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+  .toggle-all-btn:hover { background: var(--primary-light); border-color: var(--primary); }
+  .status-icon { font-size: 1.1em; margin-left: 8px; user-select: none; font-weight: normal; }
+
+  footer { text-align: center; padding: 40px; color: var(--text-muted); font-size: 15px; font-weight: 600; background: #e2e8f0; margin-top: 80px; }
+
+  @media (max-width: 768px) {
+    .hero-wrapper { padding: 60px 15px 60px; }
+    h2.chapter-title { font-size: 24px; margin: 60px 0 20px; }
+    .feature-block { padding: 25px; }
+    .feature-header { flex-direction: column; gap: 15px; }
+    .method-table th, .method-table td { display: block; width: 100%; border-right: none; }
+    .method-table th { border-bottom: none; padding-bottom: 5px; }
+    .method-table td { padding-top: 0; margin-bottom: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="28" height="28">
+      <rect width="1000" height="1000" rx="225" fill="#0052D4" />
+      <path d="M 350 480 L 200 630 L 350 780 L 350 680 L 750 680 L 750 300 L 650 300 L 650 580 L 350 580 Z" fill="#FFFFFF" />
+      <circle cx="700" cy="280" r="55" stroke="#FFC107" stroke-width="70" fill="none" />
+    </svg>
+    <span>Custom Enter Pro</span>
+  </div>
+  <div class="lang-switch">
+    <button onclick="setLang('ja')" id="btn-ja" class="active">JP</button>
+    <button onclick="setLang('en')" id="btn-en">EN</button>
+  </div>
+</header>
+
+<div class="hero-wrapper">
+  <div class="hero-content-inner">
+    <div class="ja">
+      <h1>総合取扱説明書 ＆ 用語集</h1>
+      <p>基本設定から高度な送信ロジックまで。<br>Custom Enter Proのすべての機能を網羅した公式ガイドです。</p>
+    </div>
+    <div class="en">
+      <h1>Complete User Manual & Glossary</h1>
+      <p>From basic key configurations to advanced send logic.<br>The official comprehensive guide to all Custom Enter Pro features.</p>
+    </div>
+  </div>
+  <div class="wave-divider">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,119.32,192.73,101.4,236.4,91.31,279.7,73.5,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+  </div>
+</div>
+
+<div class="container">
+  
+  <div class="search-section">
+    <div class="search-box">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="searchInput" placeholder="機能名で検索 (例: 自動取得, 翻訳, React, 仮想ペースト...)" class="ja">
+      <input type="text" id="searchInputEn" placeholder="Search features (e.g. Auto Select, Translate, React, Paste...)" class="en">
+    </div>
+    
+    <div class="glossary-grid" id="glossaryGrid">
+      <a href="#ui-keys" class="glossary-item" data-tags="送信 改行 キー設定 keys send newline">
+        <strong><span style="flex:1;">⌨️ 送信/改行キー設定</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">自分好みのキーを設定します。</span><span class="en">Set your preferred keys.</span>
+      </a>
+      <a href="#ui-icons" class="glossary-item" data-tags="🎯 ⚡ 雷 ターゲット css 自動取得 target thunder icons">
+        <strong><span style="flex:1;">🎯 / ⚡ UIアイコン群</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">送信ボタンを自動で見つけるツール。</span><span class="en">Tools to auto-detect buttons.</span>
+      </a>
+      <a href="#ui-multi" class="glossary-item" data-tags="マルチcssセレクタ 複数 multi css selector">
+        <strong><span style="flex:1;">📋 マルチCSSセレクタ</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">ボタンが複数あるサイトで使います。</span><span class="en">For sites with multiple inputs.</span>
+      </a>
+      <a href="#method-send" class="glossary-item" data-tags="送信方式 react css 信号 メソッド click signal method">
+        <strong><span style="flex:1;">🚀 送信方式 (15種)</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">プログラムの送信ロジックを選びます。</span><span class="en">15 programmatic send methods.</span>
+      </a>
+      <a href="#method-newline" class="glossary-item" data-tags="改行方式 signal insert newline">
+        <strong><span style="flex:1;">⏎ 改行方式 (2種)</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">安全に改行を入れる方法です。</span><span class="en">Safe newline insertion methods.</span>
+      </a>
+      <a href="#method-input" class="glossary-item" data-tags="入力方式 仮想ペースト システム system input paste text">
+        <strong><span style="flex:1;">📝 文字入力方式 (5種)</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">文字消えバグ等に対処する入力方法。</span><span class="en">Methods to insert text safely.</span>
+      </a>
+      <a href="#method-clear" class="glossary-item" data-tags="消去方式 backspace delete clear">
+        <strong><span style="flex:1;">🧹 テキスト消去方式</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">復元前に文字を消す方法です。</span><span class="en">Methods to clear text boxes.</span>
+      </a>
+      <a href="#guard-countdown" class="glossary-item" data-tags="カウントダウン countdown wait delay">
+        <strong><span style="flex:1;">⏳ 送信カウントダウン</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">送信前に指定秒数待機します。</span><span class="en">Wait timer to prevent typos.</span>
+      </a>
+      <a href="#guard-ng" class="glossary-item" data-tags="ngワード ブロック 警告 ng words block">
+        <strong><span style="flex:1;">🚫 NGワード検知</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">禁止用語を検知してブロックします。</span><span class="en">Blocks forbidden words.</span>
+      </a>
+      <a href="#guard-time" class="glossary-item" data-tags="タイムフィルター 時間帯 制限 time filter block">
+        <strong><span style="flex:1;">🛑 時間帯送信ブロック</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">指定時間は送信をロックします。</span><span class="en">Locks sending during off-hours.</span>
+      </a>
+      <a href="#tool-widget" class="glossary-item" data-tags="ウィジェット 翻訳 復元 backup translation widget">
+        <strong><span style="flex:1;">✨ ウィジェット機能</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">画面上の翻訳・復元ボタン等。</span><span class="en">Floating backup/trans buttons.</span>
+      </a>
+      <a href="#tool-prompt" class="glossary-item" data-tags="定型文 起動キー テンプレート prompt template">
+        <strong><span style="flex:1;">⚡ 起動キーと定型文</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">専用キーで定型文を呼び出します。</span><span class="en">Call prompts with a shortcut.</span>
+      </a>
+      <a href="#tool-mode" class="glossary-item" data-tags="モード private work 切替 mode copy">
+        <strong><span style="flex:1;">🔄 モード切替とコピー</span><span class="status-icon" title="Free / Unlimited Feature">🆓 / 👑</span></strong><span class="ja">仕事/個人用で設定を分けます。</span><span class="en">Separate profiles for work/private.</span>
+      </a>
+      <a href="#tool-native" class="glossary-item" data-tags="ネイティブ 仮想キーボード 物理 windows native keyboard bat exe">
+        <strong><span style="flex:1;">💻 仮想キーボード連携</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">[Win専用] 物理信号を送る究極機能。</span><span class="en">[Win Only] Physical Enter signal.</span>
+      </a>
+      <a href="#tool-manage" class="glossary-item" data-tags="エクスポート インポート プロファイル 編集 コピー ペースト export import profile">
+        <strong><span style="flex:1;">💾 プロファイル管理と移行</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">設定のコピーやデータ移行を行います。</span><span class="en">Manage and transfer profiles.</span>
+      </a>
+      <a href="#tool-license" class="glossary-item" data-tags="トライアル unlimited trial license">
+        <strong><span style="flex:1;">👑 Unlimitedライセンス</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">30日間の試用期間と制限解除。</span><span class="en">Unlock trial limitations.</span>
+      </a>
+      <a href="#faq" class="glossary-item" data-tags="よくある質問 トラブルシューティング q&a error faq">
+        <strong><span style="flex:1;">❓ よくある質問 (Q&A)</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">トラブルへの対処法一覧です。</span><span class="en">Troubleshooting and errors.</span>
+      </a>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: flex-end; margin-bottom: -40px; position: relative; z-index: 20;">
+    <div class="toggle-all-container">
+      <button class="toggle-all-btn" onclick="toggleAllDetails('manual-accordion', true)"><span class="ja">＋ すべて開く</span><span class="en">＋ Expand All</span></button>
+      <button class="toggle-all-btn" onclick="toggleAllDetails('manual-accordion', false)"><span class="ja">－ すべて閉じる</span><span class="en">－ Collapse All</span></button>
+    </div>
+  </div>
+
+  <h2 class="chapter-title"><span class="ja">【第1章】 基本設定とUIアイコン</span><span class="en">Chapter 1: Basic Setup & UI</span></h2>
+  
+  <div class="feature-block" id="ui-keys">
+    <div class="feature-header">
+      <div class="feature-icon">⌨️</div>
+      <div class="feature-text">
+        <h3 class="ja">キー割り当てのルール (Your Keys / Original Keys) <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <h3 class="en">Key Binding Rules <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <p class="ja">対象サイトの「✏️ 編集」を押し、あなたが実際に使いたい送信キー・改行キーを設定します。これだけで基本的なショートカットの統一が完了します。</p>
+        <p class="en">Edit the target site and set your preferred send/newline keys to unify your shortcuts.</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 詳しい設定項目を見る</span><span class="en">👉 View Detailed Setup</span></summary>
+      <div class="manual-content">
+        <ul class="ja">
+          <li><strong>① 送信キー (自分):</strong> あなたが実際に使いたい理想の送信キー（例: <kbd>Shift</kbd>+<kbd>Enter</kbd>）。</li>
+          <li><strong>② 改行キー (自分):</strong> あなたが改行に使いたいキー（例: <kbd>Enter</kbd>のみ）。</li>
+          <li><strong>③ 送信 / ④ 改行キー (元々):</strong> そのサイトが元々標準で採用しているキー。当アプリがこの本来のキー信号を偽装してサイトに送るために、必ず正しく設定しておく必要があります。</li>
+        </ul>
+        <ul class="en">
+          <li><strong>① Send / ② Newline (You):</strong> Your preferred keys.</li>
+          <li><strong>③ Send / ④ Newline (Original):</strong> The site's default keys. The app needs these to fake the signal.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="feature-block" id="ui-icons">
+    <div class="feature-header">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-text">
+        <h3 class="ja">自動取得 と スマートターゲット <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <h3 class="en">Auto Select & Smart Target <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <p class="ja">プログラムが送信ボタンの場所（CSSセレクタ）を特定するための強力な補助ツール群です。ご自身でコードを書く必要はありません。</p>
+        <p class="en">Tools to automatically detect the CSS selector of the send button without coding.</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 各アイコンの機能を見る</span><span class="en">👉 View Icon Functions</span></summary>
+      <div class="manual-content">
+        <ul class="ja">
+          <li><strong>🎯 自動取得 (Auto Select):</strong> このボタンを押したあと、実際のWebページの「送信ボタン」をクリックするだけで、アプリが自動でCSSセレクタ（ボタンの住所）を解析して入力してくれます。</li>
+          <li><strong>⚡ スマートターゲット:</strong> 送信ボタンのIDが毎回ランダムに変わってしまう厄介なサイト向けの機能です。「現在フォーカスしているテキストエリアの周辺」から、送信ボタンらしい要素をプログラムが推測して見つけます。</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="feature-block" id="ui-multi">
+    <div class="feature-header">
+      <div class="feature-icon">📋</div>
+      <div class="feature-text">
+        <h3 class="ja">マルチCSSセレクタ (複数入力欄の対応) <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <h3 class="en">Multi-CSS Selectors <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <p class="ja">ChatGPTやSlackのスレッドのように、1つの画面に「送信欄」が複数存在するサイトで使用します。動的検知をONにすることで、現在使っている入力欄のボタンを正確に狙い撃ちします。</p>
+        <p class="en">For sites with multiple inputs on one screen (like Slack threads or ChatGPT).</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 設定方法を見る</span><span class="en">👉 View Setup Steps</span></summary>
+      <div class="manual-content">
+        <div class="ja">
+          「複数セレクタの動的検知を有効にする」をONにし、最大5つまで登録枠を増やします。対象のタブで「🎯 自動取得」を押すと、青いツールチップがマウスに追従します。それぞれの入力欄の送信ボタンを順番にクリックして登録してください。
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <h2 class="chapter-title"><span class="ja">【第2章】 送信・改行方式</span><span class="en">Chapter 2: Send & Newline Methods</span></h2>
+  
+  <div class="feature-block" id="method-send">
+    <div class="feature-header">
+      <div class="feature-icon">🚀</div>
+      <div class="feature-text">
+        <h3 class="ja">送信方式 (全15種類) <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <h3 class="en">Send Methods (15 Types) <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <p class="ja">Webアプリの仕様に合わせて「プログラムでどうやって送信ボタンを押すか」のロジックを選びます。通常は「CSSクリック」で動作しますが、送信できない場合はここを変更します。</p>
+        <p class="en">Choose the backend logic matching the web app. Check "Show Advanced Methods" to enable all 15 powerful methods to bypass any block.</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 15種類の詳細一覧を開く</span><span class="en">👉 Show all 15 methods</span></summary>
+      <div class="manual-content" style="padding: 10px 20px 20px;">
+        <table class="method-table">
+          <tr><th>CSSクリック <span class="badge badge-normal">基本</span></th><td>画面上の送信ボタンをプログラム的にクリック (<code>click()</code>) します。大半のサイトはこれで動きます。</td></tr>
+          <tr><th>信号偽装 <span class="badge badge-normal">基本</span></th><td>サイト本来の送信キー信号を同期的にブラウザに送ります。</td></tr>
+          <tr><th>強力CSSクリック <span class="badge badge-adv">高度</span></th><td>人間のマウス操作（mousedown → mouseup）を精密に偽装します。</td></tr>
+          <tr><th>強力信号偽装 <span class="badge badge-adv">高度</span></th><td>KeyUpイベントを遅延送信し、監視の厳しいサイトに対応します。</td></tr>
+          <tr><th>内部状態同期 信号 <span class="badge badge-adv">高度</span></th><td>送信信号の前に、Input/Changeイベントを強制発火させます。</td></tr>
+          <tr><th>完全非同期 信号 <span class="badge badge-adv">高度</span></th><td>タイピングの速度差を完全再現する非同期シミュレーションです。</td></tr>
+          <tr><th>プロパティ完全一致 <span class="badge badge-adv">高度</span></th><td>キーボードイベントの内部プロパティを本物と完全に一致させます。</td></tr>
+          <tr><th>Form直接送信 <span class="badge badge-adv">高度</span></th><td>ボタンではなく、親のFormタグに対して直接Submit命令を出します。</td></tr>
+          <tr><th>InputEvent偽装 <span class="badge badge-adv">高度</span></th><td>キーボードイベントを使わず、Inputイベントのみを送信します。</td></tr>
+          <tr><th>親要素バブリング <span class="badge badge-adv">高度</span></th><td>対象要素の親DIVへイベントを送信し、バブリング（伝播）を利用します。</td></tr>
+          <tr><th>旧式API信号 <span class="badge badge-adv">高度</span></th><td>古いEventモデルを使用するレガシーサイト向け。</td></tr>
+          <tr><th>ARIAボタンクリック <span class="badge badge-adv">高度</span></th><td>目に見えないアクセシビリティ用ラベル（ARIA）を探してクリックします。</td></tr>
+          <tr><th>React内部関数フック <span class="badge badge-ult">最強</span></th><td>ReactのPropsを解析し、関数を直接フックして発火させます。</td></tr>
+          <tr><th>React Fiber仮想DOM <span class="badge badge-ult">究極</span></th><td>Reactの仮想DOM(Fiber)の深部にある監視関数を直接叩きます。</td></tr>
+          <tr><th>メイン世界からの発火 <span class="badge badge-ult">究極</span></th><td>拡張機能の空間を抜け出し、サイト本体のメモリ空間にスクリプトを注入します。</td></tr>
+        </table>
+      </div>
+    </details>
+  </div>
+
+  <div class="feature-block" id="method-newline">
+    <div class="feature-header">
+      <div class="feature-icon">⏎</div>
+      <div class="feature-text">
+        <h3 class="ja">改行方式 (2種類) <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <h3 class="en">Newline Methods (2 Types) <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <p class="ja">改行キーを押した際に、プログラムでどのように改行処理を行うかの設定です。</p>
+        <p class="en">How the program handles inserting a newline.</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 方式の違いを見る</span><span class="en">👉 View Methods</span></summary>
+      <div class="manual-content">
+        <ul class="ja">
+          <li><strong>信号偽装 (Signal):</strong> サイト側が用意している安全な「改行キーボード信号（Enter等）」を送ります。基本はこれを使います。</li>
+          <li><strong>強制挿入 (Insert):</strong> ブラウザの制御を無視し、拡張機能が現在のカーソル位置に直接「改行文字列（\n）」を書き込みます。</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <h2 class="chapter-title"><span class="ja">【第3章】 文字入力・消去方式</span><span class="en">Chapter 3: Input & Clear</span></h2>
+  
+  <div class="feature-block" id="method-input">
+    <div class="feature-header">
+      <div class="feature-icon">📝</div>
+      <div class="feature-text">
+        <h3 class="ja">システム文字入力方式 (全5種) <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <h3 class="en">System Input Methods <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <p class="ja">「プログラムでどうやって文字（定型文や翻訳結果）を挿入するか」の設定です。特殊なエディタ（Teams等）で<strong>「送信後に文字が消える」</strong>といったバグが起きる場合はこちらを変更します。</p>
+        <p class="en">Controls how text is inserted. Used when text disappears on complex rich-text editors (like Teams).</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 5種類の詳細一覧を開く</span><span class="en">👉 Show all 5 methods</span></summary>
+      <div class="manual-content" style="padding: 10px 20px 20px;">
+        <table class="method-table">
+          <tr><th>標準 <span class="badge badge-normal">基本</span></th><td>通常の流し込み（標準的なJavaScriptを使用）を行います。</td></tr>
+          <tr><th>仮想ペースト <span class="badge badge-adv">Teams推奨</span></th><td>裏側で「貼り付け（Paste）」イベントを発生させます。文字消えバグ等に最適です。</td></tr>
+          <tr><th>クリップボード経由 <span class="badge badge-adv">高度</span></th><td>本物のOSクリップボードを一時的に書き換えてペーストを実行する荒業です。</td></tr>
+          <tr><th>仮想入力枠経由 <span class="badge badge-adv">高度</span></th><td>画面外に透明なテキストエリアを作り、そこを経由して文字を流し込みます。</td></tr>
+          <tr><th>信号先行書き込み <span class="badge badge-adv">高度</span></th><td>IME（日本語入力）の信号を先行発火させてからテキストを挿入します。</td></tr>
+        </table>
+      </div>
+    </details>
+  </div>
+
+  <div class="feature-block" id="method-clear">
+    <div class="feature-header">
+      <div class="feature-icon">🧹</div>
+      <div class="feature-text">
+        <h3 class="ja">テキスト消去方式 (全4種) <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <h3 class="en">Text Clear Methods <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <p class="ja">翻訳や復元の実行前に、現在の入力欄に残っている文字を「どうやって空にするか」の設定です。</p>
+        <p class="en">How to clear the text box before restoring or translating text.</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 4種類の詳細一覧を開く</span><span class="en">👉 Show all 4 methods</span></summary>
+      <div class="manual-content" style="padding: 10px 20px 20px;">
+        <table class="method-table">
+          <tr><th>標準 <span class="badge badge-normal">基本</span></th><td>「すべて選択」のみを行います（その後の入力で上書きされることを期待します）。</td></tr>
+          <tr><th>Deleteコマンド発火 <span class="badge badge-adv">高度</span></th><td>すべて選択した後に、強制的にDeleteコマンドを実行して空にします。</td></tr>
+          <tr><th>Backspaceエミュレート <span class="badge badge-adv">高度</span></th><td>Backspaceキーが押されたという信号をエディタに送ります。</td></tr>
+          <tr><th>HTML強制クリア <span class="badge badge-ult">究極</span></th><td>対象要素の <code>innerHTML</code> を強制的に空に書き換えます。</td></tr>
+        </table>
+      </div>
+    </details>
+  </div>
+
+  <h2 class="chapter-title"><span class="ja">【第4章】 誤爆防止機能</span><span class="en">Chapter 4: Mistake Protection</span></h2>
+  
+  <div class="feature-block" id="guard-countdown">
+    <div class="feature-header">
+      <div class="feature-icon" style="color:var(--clr-countdown);">⏳</div>
+      <div class="feature-text">
+        <h3 class="ja">送信カウントダウン機能 <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">Send Countdown Feature <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">誤爆を防ぐため、送信ボタンを押した直後に指定した秒数（例: 3秒）のカウントダウンを開始します。宛先間違いに気づいたら「キャンセル」で止められます。</p>
+        <p class="en">Start a countdown before sending. Click cancel if you notice a mistake.</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 便利なスキップ設定について</span><span class="en">👉 Skip Settings</span></summary>
+      <div class="manual-content">
+        <div class="ja">設定画面で「もう一度はいを押せばすぐに送信できる」をONにすると、カウントダウンの待機中であっても、もう一度「はい」のボタンを押すことで待たずに即時送信が可能になります。テンポを落とさずに安全を確保できます。</div>
+      </div>
+    </details>
+  </div>
+
+  <div class="feature-block" id="guard-ng">
+    <div class="feature-header">
+      <div class="feature-icon" style="color:var(--clr-guard);">🚫</div>
+      <div class="feature-text">
+        <h3 class="ja">NGワード検知 <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <h3 class="en">NG Words <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <p class="ja">登録した言葉（社外秘、機密など）が含まれている場合、送信時に検知して警告を出したり、送信を完全にブロックしたりできます。</p>
+        <p class="en">Blocks or warns when registered forbidden words are detected in the message.</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 動作の選択について</span><span class="en">👉 Action Options</span></summary>
+      <div class="manual-content">
+        <div class="ja">検知時のアクションは「強制ブロック（一切送信させない）」か「警告して確認（赤文字のダイアログを出し、もう一度『はい』を押せば送信できる）」の2種類から選べます。</div>
+      </div>
+    </details>
+  </div>
+
+  <div class="feature-block" id="guard-time">
+    <div class="feature-header">
+      <div class="feature-icon">🛑</div>
+      <div class="feature-text">
+        <h3 class="ja">時間帯送信ブロック (タイムフィルター) <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">Time-based Send Block <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">指定した時間帯（例：22:00〜08:00など）の送信操作を完全にブロックします。働き方改革や、深夜のテンションでの誤送信を防止するのに役立ちます。</p>
+        <p class="en">Completely blocks sending during specified hours to prevent accidental off-hours messaging.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="chapter-title"><span class="ja">【第5章】 ウィジェット ＆ 定型文</span><span class="en">Chapter 5: Widgets & Templates</span></h2>
+  
+  <div class="feature-block" id="tool-widget">
+    <div class="feature-header">
+      <div class="feature-icon" style="color:var(--success);">✨</div>
+      <div class="feature-text">
+        <h3 class="ja">画面上の便利なフローティングボタン <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">Floating Widget Buttons <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">画面上にマウスで自由にドラッグ移動できる、様々な機能を持った便利なボタン（ウィジェット）を配置できます。</p>
+        <p class="en">Draggable floating widgets that you can place anywhere on the screen.</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 各ウィジェットの機能一覧</span><span class="en">👉 View All Widgets</span></summary>
+      <div class="manual-content">
+        <ul class="ja" style="margin-top:0;">
+          <li style="margin-bottom:10px;"><strong>🌐 翻訳 (Trans):</strong> 入力中のテキストを「英語⇔日本語」に自動翻訳します。通信を行うため元の文章は自動的にバックアップされます。</li>
+          <li style="margin-bottom:10px;"><strong>🕒 復元 (Backup):</strong> 一定秒数ごとの自動バックアップ（最大50,000文字）からテキストを復元します。タブを消してしまった時などに重宝します。</li>
+          <li style="margin-bottom:10px;"><strong>📝 カウンタ (Count):</strong> 文字数をリアルタイムでカウントし、設定した上限に到達すると赤く警告します。</li>
+          <li><strong>🔄 モード表示 (Mode):</strong> 現在がPrivateモードかWorkモードかを視覚的に表示します。</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="feature-block" id="tool-prompt">
+    <div class="feature-header">
+      <div class="feature-icon" style="color:var(--clr-widget);">⚡</div>
+      <div class="feature-text">
+        <h3 class="ja">起動キーと定型文機能 (Prompts) <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <h3 class="en">Trigger Key & Templates <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <p class="ja">専用の「起動キー（初期設定は <kbd>Ctrl</kbd>+<kbd>Space</kbd>）」を押すことで、画面上のカーソル位置に登録済みの定型文メニューを呼び出し、ワンクリックで入力枠へ挿入できます。</p>
+        <p class="en">Press the Trigger Key to open a template menu directly on the screen for instant pasting into the input box.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="chapter-title"><span class="ja">【第6章】 モード切替</span><span class="en">Chapter 6: Mode Switch</span></h2>
+  
+  <div class="feature-block" id="tool-mode">
+    <div class="feature-header">
+      <div class="feature-icon">🔄</div>
+      <div class="feature-text">
+        <h3 class="ja">Private / Work モードとコピー機能 <span class="status-icon" title="Free / Unlimited Feature">🆓 / 👑</span></h3>
+        <h3 class="en">Private & Work Modes <span class="status-icon" title="Free / Unlimited Feature">🆓 / 👑</span></h3>
+        <p class="ja">「個人用」と「仕事用」の2つのモードを持ち、指定した時間帯での自動切替が可能です（例：09:00〜18:00は自動でWorkへ）。プロファイル一覧の「⋮」から、作った設定をもう片方のモードへ一括コピーすることもできます（※別モードへのコピー機能はUnlimited版限定です）。</p>
+        <p class="en">Switch between "Private" and "Work" modes automatically based on time. You can easily duplicate profiles between modes (cross-mode copy requires Unlimited version).</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="chapter-title"><span class="ja">【第7章】 仮想キーボード連携</span><span class="en">Chapter 7: Virtual Keyboard Host</span></h2>
+
+  <div class="feature-block" id="tool-native">
+    <div class="feature-header">
+      <div class="feature-icon" style="color:var(--danger);">💻</div>
+      <div class="feature-text">
+        <h3 class="ja">[Windows専用] 仮想キーボード連携 <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <h3 class="en">[Win Only] Virtual Keyboard Host <span class="status-icon" title="Free Feature">🆓</span></h3>
+        <p class="ja">JavaScriptによる操作を完全に弾く超・強固なサイトにおいて、Windows OSレベルで直接ハードウェアキーボードの信号（物理的なエンターキー）を叩くための究極機能です。</p>
+        <p class="en">The ultimate feature to physically tap hardware keys via Windows OS, bypassing strict JS blockers.</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 安全な設計とセットアップ手順</span><span class="en">👉 Setup & Safety</span></summary>
+      <div class="manual-content">
+        <div class="ja">
+          <p style="margin-top:0; color:var(--primary-dark); font-weight:bold;">■ 安全設計について</p>
+          <p style="margin-bottom:20px;">この連携アプリはキーボードの入力を盗み見る「キーロガー」ではありません。送信の瞬間だけ命令を受け取る安全な設計であり、ブラウザ終了と共に通信が即座に切断されます。</p>
+          <p style="color:var(--primary-dark); font-weight:bold;">■ セットアップ手順</p>
+          <ol style="margin-top:0;">
+            <li>設定画面にて「💻 究極突破：Windows仮想キーボードを使用して物理送信する」にチェック。</li>
+            <li>専用アプリ(ZIP)をダウンロードし、exeを展開。<br><small style="color:var(--text-muted);">※EXEを直接ダブルクリックしてエラーが出るのは正常です（Chromeからの通信を待機するため）。</small></li>
+            <li>exeのフルパスを入力し「⬇️ 登録用(.bat)生成」をクリック。</li>
+            <li>ダウンロードされたbatファイルを<strong>「右クリックして、管理者として実行」</strong>。</li>
+            <li>F5キーで再読み込みし、設定画面に「🟢 接続済 (Connected)」が出れば完了です。</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <h2 class="chapter-title"><span class="ja">【第8章】 プロファイル管理とエクスポート／インポート</span><span class="en">Chapter 8: Profile Management & Export/Import</span></h2>
+  
+  <div class="feature-block" id="tool-manage">
+    <div class="feature-header">
+      <div class="feature-icon">💾</div>
+      <div class="feature-text">
+        <h3 class="ja">設定の複製とデータの移行 <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">Duplicate Settings & Data Transfer <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">作成したプロファイル設定は、他のサイト用に部分的にコピーしたり、ファイルとして書き出して別のPCに移行することができます。（※一部機能はUnlimited版限定です）</p>
+        <p class="en">You can copy profile settings for other sites, or export them as a file to transfer to another PC. (*Some features require Unlimited)</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 プロファイル一覧のボタンについて</span><span class="en">👉 About Profile Buttons</span></summary>
+      <div class="manual-content">
+        <ul class="ja" style="margin-top:0;">
+          <li style="margin-bottom:10px;"><strong>✏️ 編集:</strong> プロファイルの設定内容を再編集します。</li>
+          <li style="margin-bottom:10px;"><strong>📋 コピー / 📋 ペースト:</strong> 選択したプロファイルの設定（基本設定、詳細設定、NGワード、定型文など）を選んでコピーし、別のプロファイルに貼り付けます。<span class="status-icon" title="Free Feature">🆓</span></li>
+          <li style="margin-bottom:10px;"><strong>🗑️ 削除:</strong> プロファイルを削除します。</li>
+          <li><strong>⋮ (別モードへコピー):</strong> 現在のプロファイルを、もう片方のモード（Work⇔Private）へ複製します。<span class="status-icon" title="Unlimited Feature">👑</span><br><small style="color:var(--text-muted);">※カスタムプロファイルの別モードへのコピーはUnlimited版限定です。</small></li>
+        </ul>
+      </div>
+    </details>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 エクスポートとインポートについて</span><span class="en">👉 Export and Import</span></summary>
+      <div class="manual-content">
+        <div class="ja">
+          <p style="margin-top:0; font-weight:bold; color:var(--primary-dark);">■ エクスポート（書き出し） <span class="status-icon" title="Unlimited Feature">👑</span></p>
+          <p style="margin-bottom:15px;">設定画面下部の「エクスポート」ボタンから、選択したプロファイルを <code>.cep</code> ファイルとしてPCに保存します。バックアップや、他のPCへの設定移行に使用します。</p>
+          <p style="font-weight:bold; color:var(--primary-dark);">■ インポート（読み込み） <span class="status-icon" title="Unlimited Feature">👑</span></p>
+          <p style="margin-bottom:0;">「インポート」ボタンから、保存した <code>.cep</code> ファイルを読み込みます。既存のプロファイルと上書きするか、結合するかを選択できます。<br><small style="color:var(--text-muted);">※エクスポートおよびインポート機能の利用はUnlimited版限定です（無料トライアル期間中は使用可能です）。</small></p>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <h2 class="chapter-title"><span class="ja">【第9章】 ライセンスと制限解除</span><span class="en">Chapter 9: License & Unlimited</span></h2>
+
+  <div class="feature-block" id="tool-license">
+    <div class="feature-header">
+      <div class="feature-icon" style="color:var(--accent);">👑</div>
+      <div class="feature-text">
+        <h3 class="ja">30日間のフリートライアルと制限解除 <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">30-Day Free Trial & Unlimited <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">インストールから30日間は、すべての機能を制限なく無料でご利用いただけます。</p>
+        <p class="en">You can use all features for free for 30 days after installation.</p>
+      </div>
+    </div>
+    <details class="manual-accordion" open> <summary class="manual-summary"><span class="ja">👉 試用終了後の制限と、Unlimited版について</span><span class="en">👉 After Trial & Unlimited</span></summary>
+      <div class="manual-content">
+        <div class="ja">
+          <p style="margin-top:0; font-weight:bold; color:#856404;">⚠️ 試用期間終了後の制限 (フリーモード)</p>
+          <ul style="margin-top:5px; margin-bottom:20px;">
+            <li>カスタムプロファイル（ご自身で追加した独自ドメイン）は<strong>「最大2つ」</strong>までしか有効化できません。（無料で使い続けるドメインを2つ選択してください）。超過したプロファイルはロックされます。</li>
+            <li>ウィジェット機能、送信フィルタ、モード間の一括コピー、インポート機能がロックされます。</li>
+          </ul>
+          <p style="font-weight:bold; color:var(--primary-dark);">👑 Unlimited版（制限解除）について</p>
+          <p style="margin-top:5px; margin-bottom:0;">シリアルキーをご購入いただき、設定画面の「🔑」アイコンから認証を行うことで、永久にすべての制限が解除され「Unlimited版」としてご利用いただけます。PCの移行を行った場合でも、お持ちのシリアルキーを再度入力すれば復活します。</p>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin: 80px 0 40px; scroll-margin-top: 100px;" id="faq">
+    <h2 class="chapter-title" style="margin: 0; padding-bottom: 0; border-bottom: none;">
+      <span class="ja">【第10章】 よくある質問 (Q&A)</span><span class="en">Chapter 10: Frequently Asked Questions</span> <span class="status-icon" title="Free Feature">🆓</span>
+    </h2>
+    <div class="toggle-all-container">
+      <button class="toggle-all-btn" onclick="toggleAllDetails('faq-accordion', true)"><span class="ja">＋ すべて開く</span><span class="en">＋ Expand All</span></button>
+      <button class="toggle-all-btn" onclick="toggleAllDetails('faq-accordion', false)"><span class="ja">－ すべて閉じる</span><span class="en">－ Collapse All</span></button>
+    </div>
+  </div>
+  
+  <div style="display:flex; flex-direction:column; gap:15px; margin-bottom:80px;">
+    
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 設定を保存したのに、チャット画面で動きません。</span><span class="en">Q. I saved but it doesn't work on the chat screen.</span></summary>
+      <div class="faq-content">
+        <div class="ja">設定を保存した後は、対象のチャット画面（タブ）を一度<strong>「リロード（F5キーまたは更新ボタン）」</strong>してください。<br>それでも動かない場合は、現在の拡張機能のモード（Private / Work）が、設定したプロファイルのモードと一致しているか確認してください。</div>
+        <div class="en">Always <strong>reload (press F5)</strong> the target chat tab after saving. Also, ensure your Global Mode matches the profile mode.</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 送信ボタンが反応しない、改行がおかしくなります。</span><span class="en">Q. The send button doesn't react, or newlines break.</span></summary>
+      <div class="faq-content">
+        <div class="ja">
+          サイトによって内部の作りが異なります。「✏️ 編集」画面から以下をお試しください。<br>
+          ・<strong>送信されない時：</strong> 第2章「送信方式」を『CSSクリック』や『信号偽装』等に変える。<br>
+          ・<strong>改行文字が消える時（Teams等）：</strong> 第3章「システム文字入力方式」を『仮想ペースト』に変える。<br>
+          ・<strong>どうしてもダメな時：</strong> 「高度な方式を表示」にチェックを入れ、『[最強] React Fiber仮想DOM走破』などの特殊方式を試す。
+        </div>
+        <div class="en">Try changing the "Send Method" to "CSS Click" or "Signal". For newline bugs (like in Teams), change "Text Input Method" to "Virtual Paste".</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 「🎯 自動取得」を使ってもボタンが登録されません。</span><span class="en">Q. "Auto Select" doesn't capture the button correctly.</span></summary>
+      <div class="faq-content">
+        <div class="ja">一部の特殊な動的サイト（SPAなど）では自動取得が効かない場合があります。その場合は、ブラウザの「検証（F12）」ツールを使ってボタンのCSSセレクタ（class名やidなど）をご自身で調べ、手動で入力していただく必要があります。</div>
+        <div class="en">On complex sites (like SPAs), auto-select might fail. You must use browser Inspect (F12) to find the CSS selector manually.</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 翻訳ウィジェット(🌐)を押しても反応しません。</span><span class="en">Q. The translation widget doesn't work.</span></summary>
+      <div class="faq-content">
+        <div class="ja">翻訳機能は外部の翻訳API通信を使用しています。入力欄に文字が入っていないか、長文すぎる場合、または短時間に連続して押しすぎてAPIの制限に引っかかっている可能性があります。少し時間を置いてお試しください。</div>
+        <div class="en">The translation uses an external API. It may fail if the text is empty, too long, or if you hit the API rate limit by clicking too fast.</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 復元ウィジェット(🕒)の文字数が足りない気がします。</span><span class="en">Q. The restore widget seems to miss some text.</span></summary>
+      <div class="faq-content">
+        <div class="ja">ブラウザの動作が重くなるのを完全に防ぐため、バックアップされるテキストは「最新の 50,000文字（5万文字）」までに安全制限されています。5万文字を超える超長文の場合は、末尾（または古い部分）がカットされている可能性があります。</div>
+        <div class="en">To prevent browser lag, the auto-backup safely limits the text to 50,000 characters. Extra long texts may be truncated.</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 別のパソコンでも同じ設定を使えますか？</span><span class="en">Q. Can I use the same settings on a different computer?</span></summary>
+      <div class="faq-content">
+        <div class="ja">はい。ご自宅のPCと会社のPCなど、同じGoogleアカウントでChromeにログインして「同期」をオンにしていれば、Unlimited版のライセンス認証状態は自動的に引き継がれます。<br>※細かいサイト設定（プロファイル）を移す場合は、設定画面下部の「エクスポート」でJSONファイルを保存し、別のPCで「インポート」してください。</div>
+        <div class="en">Yes. As long as you log into Chrome with the same Google Account and Sync is enabled, your Unlimited license status will sync.</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 会社のPCで「仮想キーボード(.bat)」が実行できません。</span><span class="en">Q. Virtual Keyboard Host gives an error on company PC.</span></summary>
+      <div class="faq-content">
+        <div class="ja">第9章の「仮想キーボード連携（.batの実行）」機能はWindowsのレジストリを書き換えるため、会社の厳しいセキュリティ設定やウイルス対策ソフトでは弾かれることがあります。<br>その場合は連携機能のご利用を諦め、「送信方式」から『仮想ペースト』や『React Fiber方式』などのソフトウェア完結の方式をお試しください。</div>
+        <div class="en">Modifying the Windows Registry is often blocked by corporate security. Please use alternative JS-based methods like "React Fiber" instead.</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. Macでもすべての機能を使えますか？</span><span class="en">Q. Does it work fully on Mac?</span></summary>
+      <div class="faq-content">
+        <div class="ja">Chrome拡張機能としての基本機能（ショートカット統一、ウィジェット、カウントダウン等）はMacでも完全にご利用いただけます。<br>ただし、[Windows上級者向け]の「仮想キーボード連携（Native Host）」機能のみ、Windowsのシステム（.exe / .bat）に依存しているためMacではご利用いただけません。</div>
+        <div class="en">Yes, all core extension features work perfectly on Mac. However, the [Advanced] "Virtual Keyboard Host" is strictly Windows-only.</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 拡張機能のアイコンがツールバーに見当たりません。</span><span class="en">Q. The extension icon is missing from the toolbar.</span></summary>
+      <div class="faq-content">
+        <div class="ja">Chromeの右上にある「パズルのピース」のアイコンをクリックし、リストの中から「Custom Enter Pro」の横にある「ピン留め（📌）」アイコンをクリックして青くすると、常にツールバーに表示されるようになります。</div>
+        <div class="en">Click the "Puzzle Piece" icon in the top right of Chrome, find "Custom Enter Pro", and click the "Pin" icon next to it.</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 購入後に「自分の環境で動かなかった」場合、返金できますか？</span><span class="en">Q. Can I get a refund if it doesn't work on my setup?</span></summary>
+      <div class="faq-content">
+        <div class="ja">大変申し訳ございませんが、デジタル商品の性質上、ご購入後の返金は一切承っておりません。そのため、<strong>必ず30日間の無料トライアル期間中に、ご自身の環境（社内PCや対象のツール）で正常に動作するかをご確認いただいた上で</strong>ご購入をお願いいたします。</div>
+        <div class="en">We do not offer refunds due to the nature of digital goods. Please <strong>make sure to fully test the app during the 30-day free trial</strong> before purchasing.</div>
+      </div>
+    </details>
+    
+  </div>
+
+</div> <footer>
+  <p>Custom Enter Pro © 2026 - Official Manual & Support</p>
+</footer>
+
+<script>
+  // 言語の自動認識および手動切り替えロジック
+  function setLang(lang) {
+    document.documentElement.lang = lang; 
+    document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + lang).classList.add('active');
+  }
+
+  // アコーディオンの全開閉制御関数
+  function toggleAllDetails(className, open) {
+    document.querySelectorAll('details.' + className).forEach(el => {
+      if (open) {
+        el.setAttribute('open', '');
+      } else {
+        el.removeAttribute('open');
+      }
+    });
+  }
+
+  // 検索・フィルタリング処理
+  function setupSearch() {
+    const inputJa = document.getElementById('searchInput');
+    const inputEn = document.getElementById('searchInputEn');
+    const items = document.querySelectorAll('.glossary-item');
+
+    const filterItems = (query) => {
+      const q = query.toLowerCase();
+      items.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        const tags = (item.getAttribute('data-tags') || '').toLowerCase();
+        
+        if (text.includes(q) || tags.includes(q)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    };
+
+    inputJa.addEventListener('input', (e) => filterItems(e.target.value));
+    inputEn.addEventListener('input', (e) => filterItems(e.target.value));
+
+    // ★重要: 索引アイテムクリック時に、対象のブロックへスクロールし、アコーディオンを自動で開く処理
+    items.forEach(item => {
+      item.addEventListener('click', (e) => {
+        const href = item.getAttribute('href');
+        if(href && href.startsWith('#')) {
+          const targetId = href.substring(1);
+          const targetElem = document.getElementById(targetId);
+          
+          if(targetElem) {
+            // 対象ブロック内にある details (アコーディオン) を探し出して開く
+            const accordion = targetElem.querySelector('details.manual-accordion');
+            if(accordion) {
+              accordion.setAttribute('open', '');
+            }
+          }
+        }
+      });
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const userLang = navigator.language || navigator.userLanguage;
+    if (!userLang.startsWith('ja')) {
+      setLang('en');
+    } else {
+      setLang('ja'); 
+    }
+    setupSearch();
+  });
+</script>
+
+</body>
+</html>
