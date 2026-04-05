@@ -24,11 +24,11 @@
     --clr-widget: #FFD600;     
     --clr-guard: #e63946;      
     --clr-team: #6a1b9a;       
+    --clr-ai: #10b981;
   }
   
   html[lang="en"] .ja, html[lang="ja"] .en { display: none !important; }
   
-  /* 文字サイズを全体的に大きく設定 */
   body { 
     font-family: 'Inter', 'Noto Sans JP', sans-serif; 
     background-color: var(--bg); 
@@ -36,7 +36,7 @@
     margin: 0; 
     padding: 0; 
     line-height: 1.8; 
-    font-size: 16px; /* ベースサイズを拡大 */
+    font-size: 16px;
     overflow-x: hidden;
   }
   
@@ -60,7 +60,6 @@
   .lang-switch button { background: transparent; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 700; color: var(--text-muted); transition: 0.3s; }
   .lang-switch button.active { background: #fff; color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 
-  /* ヒーローセクション */
   .hero-wrapper {
     position: relative;
     background: linear-gradient(135deg, var(--primary), var(--primary-light), #6FB1FC);
@@ -80,7 +79,6 @@
   .hero-wrapper h1 { font-size: clamp(32px, 5vw, 48px); margin: 0 0 15px 0; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
   .hero-wrapper p { font-size: 18px; opacity: 0.95; margin: 0; line-height: 1.6; }
 
-  /* 波のSVG（重なり解消済） */
   .wave-divider { 
     position: absolute; bottom: -1px; left: 0; width: 100%; height: 80px; 
     overflow: hidden; line-height: 0; z-index: 1; 
@@ -88,20 +86,26 @@
   .wave-divider svg { display: block; width: 100%; height: 100%; }
   .wave-divider .shape-fill { fill: var(--bg); }
 
-  /* メインコンテナ */
   .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 10; }
 
-  /* 検索ボックスと機能索引 */
+  /* 検索・逆引きセクション */
   .search-section { 
     background: var(--card-bg); border-radius: 16px; padding: 30px; 
     box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid var(--border); 
     margin-top: 20px; margin-bottom: 60px; position: relative; z-index: 20; 
   }
-  .search-box { display: flex; align-items: center; background: #f8fafc; border-radius: 12px; padding: 15px 20px; border: 2px solid transparent; transition: 0.3s; margin-bottom: 25px; }
+  .search-box { display: flex; align-items: center; background: #f8fafc; border-radius: 12px; padding: 15px 20px; border: 2px solid transparent; transition: 0.3s; margin-bottom: 20px; }
   .search-box:focus-within { border-color: var(--primary); background: #fff; box-shadow: 0 4px 15px rgba(0,82,212,0.08); }
   .search-box input { border: none; background: transparent; width: 100%; font-size: 18px; outline: none; color: var(--text-main); font-weight: 600; margin-left: 12px; }
+
+  .legend-box { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; font-size: 14px; background: #f1f5f9; padding: 12px 18px; border-radius: 8px; border: 1px solid #cbd5e1; align-items: center; }
+
+  .quick-guide { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 25px; align-items: stretch; }
+  .quick-guide-label { grid-column: 1 / -1; font-weight: 700; color: var(--primary-dark); font-size: 15px; display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
+  .quick-btn { background: #f1f5f9; border: 1px solid var(--border); padding: 10px 15px; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; text-align: center; gap: 8px; height: 100%; }
+  .quick-btn:hover, .quick-btn.active { background: var(--primary-light); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,82,212,0.2); }
   
-  .glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; max-height: 380px; overflow-y: auto; padding-right: 10px; }
+  .glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; max-height: 420px; overflow-y: auto; padding-right: 10px; }
   .glossary-grid::-webkit-scrollbar { width: 8px; }
   .glossary-grid::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
   .glossary-item { background: #fff; border: 1px solid var(--border); padding: 18px; border-radius: 12px; transition: all 0.2s; cursor: pointer; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; gap: 6px; }
@@ -110,47 +114,39 @@
   .glossary-item strong { font-size: 16px; color: var(--primary-dark); display: flex; align-items: center; gap: 8px; transition: 0.2s; }
   .glossary-item span { font-size: 14px; color: var(--text-muted); line-height: 1.5; transition: 0.2s; }
 
-  /* 章タイトル */
   h2.chapter-title { margin: 80px 0 40px; font-size: 30px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 15px; padding-bottom: 15px; border-bottom: 2px solid var(--border); scroll-margin-top: 100px; }
   h2.chapter-title::before { content: ''; display: block; width: 8px; height: 32px; background: linear-gradient(to bottom, var(--primary), var(--accent)); border-radius: 4px; }
 
-  /* 構造: 機能ブロック（基本説明は常に表示） */
   .feature-block { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 40px; margin-bottom: 30px; box-shadow: 0 6px 20px rgba(0,0,0,0.03); scroll-margin-top: 120px; }
   .feature-header { display: flex; align-items: flex-start; gap: 25px; margin-bottom: 20px; }
   .feature-icon { font-size: 32px; flex-shrink: 0; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border-radius: 16px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
-  .feature-text h3 { margin: 0 0 10px 0; font-size: 22px; color: var(--text-main); font-weight: 800; display: flex; align-items: center; }
+  .feature-text h3 { margin: 0 0 10px 0; font-size: 22px; color: var(--text-main); font-weight: 800; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
   .feature-text p { margin: 0; font-size: 16px; color: var(--text-muted); line-height: 1.8; }
-  .feature-text ul { padding-left: 20px; margin: 10px 0 0 0; font-size: 15px; color: var(--text-muted); }
 
-  /* 詳細を隠すアコーディオン */
   .manual-accordion { background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; margin-top: 25px; transition: 0.3s; }
   .manual-accordion[open] { background: #fff; border-color: var(--primary-light); box-shadow: 0 5px 20px rgba(0,82,212,0.08); }
-  
   .manual-summary { padding: 15px 25px; font-weight: 700; font-size: 16px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--primary-dark); transition: 0.2s; border-radius: 12px; }
   .manual-summary::-webkit-details-marker { display: none; }
   .manual-summary:hover { background: #f1f5f9; }
   .manual-summary::after { content: '▼'; font-size: 18px; color: var(--primary); transition: 0.3s; }
   .manual-accordion[open] .manual-summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: 1px solid var(--border); }
   .manual-accordion[open] .manual-summary::after { transform: rotate(180deg); }
-  
   .manual-content { padding: 30px; font-size: 15px; color: var(--text-muted); line-height: 1.8; animation: fadeIn 0.3s; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
   kbd { background: #e2e8f0; border-radius: 6px; border: 1px solid #cbd5e1; border-bottom-width: 2px; padding: 2px 8px; font-family: monospace; font-size: 14px; font-weight: 700; color: #334155; }
   
-  /* メソッド比較テーブル */
   .method-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
-  .method-table th, .method-table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.7; }
-  .method-table th { background: #f8fafc; font-weight: 700; color: var(--primary-dark); width: 35%; border-right: 1px solid var(--border); vertical-align: top; }
-  .method-table tr:last-child td, .method-table tr:last-child th { border-bottom: none; }
+  .method-table th, .method-table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.7; }
+  .method-table th { background: #f8fafc; font-weight: 700; color: var(--primary-dark); width: 30%; border-right: 1px solid var(--border); vertical-align: top; }
   .method-table tr:hover td { background: #f0f7ff; }
   
-  .badge { display:inline-block; padding:3px 8px; border-radius:6px; font-size:12px; font-weight:bold; margin-top:6px; }
+  .badge { display:inline-block; padding:3px 8px; border-radius:6px; font-size:12px; font-weight:bold; margin-top:6px; margin-right:5px; }
   .badge-normal { background:#e2e8f0; color:#475569; border:1px solid #cbd5e1; }
   .badge-adv { background:#fff8e1; color:#f57f17; border:1px solid #ffe082; }
   .badge-ult { background:#ffebee; color:#e63946; border:1px solid #ffcdd2; }
+  .badge-rec { background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd; font-size:11px; }
 
-  /* FAQ アコーディオン */
   .faq-accordion { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 15px; transition: 0.3s; }
   .faq-accordion[open] { border-color: var(--primary-light); box-shadow: 0 5px 25px rgba(0,82,212,0.1); }
   .faq-summary { padding: 22px 25px; font-weight: 700; font-size: 17px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border-radius: 12px; color: var(--text-main); }
@@ -161,13 +157,14 @@
   .faq-accordion[open] .faq-summary::after { transform: rotate(45deg); }
   .faq-content { padding: 25px; font-size: 16px; color: var(--text-muted); line-height: 1.8; animation: fadeIn 0.3s; }
 
-  /* トグルボタンとアイコン用のスタイル */
   .toggle-all-container { display: flex; gap: 10px; }
   .toggle-all-btn { background: #fff; border: 1px solid var(--border); color: var(--primary); padding: 6px 14px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s; white-space: nowrap; }
-  .toggle-all-btn:hover { background: var(--primary-light); border-color: var(--primary); }
-  .status-icon { font-size: 1.1em; margin-left: 8px; user-select: none; font-weight: normal; }
+  .toggle-all-btn:hover { background: var(--primary-light); border-color: var(--primary); color: white; }
+  .status-icon { font-size: 1.1em; margin-left: auto; user-select: none; font-weight: normal; }
 
   footer { text-align: center; padding: 40px; color: var(--text-muted); font-size: 15px; font-weight: 600; background: #e2e8f0; margin-top: 80px; }
+  
+  .privacy-box { background: #f8fafc; border-left: 4px solid var(--danger); padding: 25px; border-radius: 0 12px 12px 0; margin-bottom: 20px; }
 
   @media (max-width: 768px) {
     .hero-wrapper { padding: 60px 15px 60px; }
@@ -177,6 +174,7 @@
     .method-table th, .method-table td { display: block; width: 100%; border-right: none; }
     .method-table th { border-bottom: none; padding-bottom: 5px; }
     .method-table td { padding-top: 0; margin-bottom: 10px; }
+    .quick-guide { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -201,11 +199,11 @@
   <div class="hero-content-inner">
     <div class="ja">
       <h1>総合取扱説明書 ＆ 用語集</h1>
-      <p>基本設定から高度な送信ロジックまで。<br>Custom Enter Proのすべての機能を網羅した公式ガイドです。</p>
+      <p>基本設定からAI連携、高度な送信ロジックまで。<br>Custom Enter Proのすべての機能を網羅した公式ガイドです。</p>
     </div>
     <div class="en">
       <h1>Complete User Manual & Glossary</h1>
-      <p>From basic key configurations to advanced send logic.<br>The official comprehensive guide to all Custom Enter Pro features.</p>
+      <p>From basic key configurations to AI integration & advanced logic.<br>The official comprehensive guide to all Custom Enter Pro features.</p>
     </div>
   </div>
   <div class="wave-divider">
@@ -218,60 +216,104 @@
 <div class="container">
   
   <div class="search-section">
+    <div class="legend-box ja">
+      <div style="font-weight:700; color:var(--primary-dark); margin-right:10px;">📌 アイコンの凡例:</div>
+      <span style="display:flex; align-items:center; gap:5px;"><span class="status-icon" style="margin:0;">🆓</span> 無料機能</span>
+      <span style="display:flex; align-items:center; gap:5px;"><span class="status-icon" style="margin:0;">👑</span> 有料機能 (Unlimited版限定)</span>
+      <span style="display:flex; align-items:center; gap:5px;"><span class="status-icon" style="margin:0;">⭐</span> 重要事項</span>
+    </div>
+    <div class="legend-box en">
+      <div style="font-weight:700; color:var(--primary-dark); margin-right:10px;">📌 Legend:</div>
+      <span style="display:flex; align-items:center; gap:5px;"><span class="status-icon" style="margin:0;">🆓</span> Free Feature</span>
+      <span style="display:flex; align-items:center; gap:5px;"><span class="status-icon" style="margin:0;">👑</span> Unlimited Feature</span>
+      <span style="display:flex; align-items:center; gap:5px;"><span class="status-icon" style="margin:0;">⭐</span> Important</span>
+    </div>
+
     <div class="search-box">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input type="text" id="searchInput" placeholder="機能名で検索 (例: 自動取得, 翻訳, React, 仮想ペースト...)" class="ja">
-      <input type="text" id="searchInputEn" placeholder="Search features (e.g. Auto Select, Translate, React, Paste...)" class="en">
+      <input type="text" id="searchInput" placeholder="機能名で検索 (例: 自動取得, AI, 窓, 仮想ペースト...)" class="ja">
+      <input type="text" id="searchInputEn" placeholder="Search features (e.g. AI, Window, Paste...)" class="en">
+    </div>
+
+    <div class="quick-guide ja">
+      <div class="quick-guide-label">💡 目的から探す:</div>
+      <button class="quick-btn" onclick="filterByTag('誤爆')">🛡️ 誤爆・ミスを防ぐ</button>
+      <button class="quick-btn" onclick="filterByTag('消える')">📝 文字消え・改行バグ対策</button>
+      <button class="quick-btn" onclick="filterByTag('ai')">✨ 文章のトーン自動修正</button>
+      <button class="quick-btn" onclick="filterByTag('効率化')">🚀 作業効率化ツール</button>
+      <button class="quick-btn" onclick="filterByTag('窓')">🪟 画面上の便利ウィジェット</button>
+      <button class="quick-btn" onclick="filterByTag('')" style="background:#e2e8f0; color:#475569;">🔄 絞り込みリセット</button>
+    </div>
+    <div class="quick-guide en">
+      <div class="quick-guide-label">💡 Quick Guide:</div>
+      <button class="quick-btn" onclick="filterByTag('prevent')">🛡️ Prevent Typos & Mistakes</button>
+      <button class="quick-btn" onclick="filterByTag('disappear')">📝 Fix Text Bugs</button>
+      <button class="quick-btn" onclick="filterByTag('ai')">✨ AI Tone Correction</button>
+      <button class="quick-btn" onclick="filterByTag('efficiency')">🚀 Workflow Automation</button>
+      <button class="quick-btn" onclick="filterByTag('tool')">🪟 On-Screen Widgets</button>
+      <button class="quick-btn" onclick="filterByTag('')" style="background:#e2e8f0; color:#475569;">🔄 Reset Filters</button>
     </div>
     
     <div class="glossary-grid" id="glossaryGrid">
-      <a href="#ui-keys" class="glossary-item" data-tags="送信 改行 キー設定 keys send newline">
+      <a href="#ui-keys" class="glossary-item" data-tags="送信 改行 キー設定 keys send newline 効率化 efficiency">
         <strong><span style="flex:1;">⌨️ 送信/改行キー設定</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">自分好みのキーを設定します。</span><span class="en">Set your preferred keys.</span>
       </a>
-      <a href="#ui-icons" class="glossary-item" data-tags="🎯 ⚡ 雷 ターゲット css 自動取得 target thunder icons">
+      <a href="#ui-icons" class="glossary-item" data-tags="🎯 ⚡ 雷 ターゲット css 自動取得 target thunder icons 効率化 efficiency">
         <strong><span style="flex:1;">🎯 / ⚡ UIアイコン群</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">送信ボタンを自動で見つけるツール。</span><span class="en">Tools to auto-detect buttons.</span>
       </a>
-      <a href="#ui-multi" class="glossary-item" data-tags="マルチcssセレクタ 複数 multi css selector">
+      <a href="#ui-multi" class="glossary-item" data-tags="マルチcssセレクタ 複数 multi css selector 効率化 efficiency">
         <strong><span style="flex:1;">📋 マルチCSSセレクタ</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">ボタンが複数あるサイトで使います。</span><span class="en">For sites with multiple inputs.</span>
       </a>
       <a href="#method-send" class="glossary-item" data-tags="送信方式 react css 信号 メソッド click signal method">
         <strong><span style="flex:1;">🚀 送信方式 (15種)</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">プログラムの送信ロジックを選びます。</span><span class="en">15 programmatic send methods.</span>
       </a>
-      <a href="#method-newline" class="glossary-item" data-tags="改行方式 signal insert newline">
+      <a href="#macro-after" class="glossary-item" data-tags="送信後マクロ タブ 移動 閉じる 自動化 macro tab close 効率化 efficiency">
+        <strong><span style="flex:1;">🚀 送信後マクロ</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">送信完了後にタブを自動で閉じます。</span><span class="en">Auto close/move tabs after sending.</span>
+      </a>
+      <a href="#method-newline" class="glossary-item" data-tags="改行方式 signal insert newline 消える disappear">
         <strong><span style="flex:1;">⏎ 改行方式 (2種)</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">安全に改行を入れる方法です。</span><span class="en">Safe newline insertion methods.</span>
       </a>
-      <a href="#method-input" class="glossary-item" data-tags="入力方式 仮想ペースト システム system input paste text">
+      <a href="#method-input" class="glossary-item" data-tags="入力方式 仮想ペースト システム system input paste text 消える disappear">
         <strong><span style="flex:1;">📝 文字入力方式 (5種)</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">文字消えバグ等に対処する入力方法。</span><span class="en">Methods to insert text safely.</span>
       </a>
-      <a href="#method-clear" class="glossary-item" data-tags="消去方式 backspace delete clear">
-        <strong><span style="flex:1;">🧹 テキスト消去方式</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">復元前に文字を消す方法です。</span><span class="en">Methods to clear text boxes.</span>
-      </a>
-      <a href="#guard-countdown" class="glossary-item" data-tags="カウントダウン countdown wait delay">
+      <a href="#guard-countdown" class="glossary-item" data-tags="カウントダウン countdown wait delay 誤爆 prevent">
         <strong><span style="flex:1;">⏳ 送信カウントダウン</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">送信前に指定秒数待機します。</span><span class="en">Wait timer to prevent typos.</span>
       </a>
-      <a href="#guard-ng" class="glossary-item" data-tags="ngワード ブロック 警告 ng words block">
-        <strong><span style="flex:1;">🚫 NGワード検知</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">禁止用語を検知してブロックします。</span><span class="en">Blocks forbidden words.</span>
+      <a href="#guard-popup" class="glossary-item" data-tags="送信確認 ポップアップ popup confirm 誤爆 prevent">
+        <strong><span style="flex:1;">💬 送信確認ポップアップ</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">Enter連打を防ぐ確認画面を出します。</span><span class="en">Confirmation screen before sending.</span>
       </a>
-      <a href="#guard-time" class="glossary-item" data-tags="タイムフィルター 時間帯 制限 time filter block">
+      <a href="#guard-ng" class="glossary-item" data-tags="ngワード ブロック 警告 ng words block 誤爆 prevent">
+        <strong><span style="flex:1;">🚫 NGワード検知</span><span class="status-icon" title="Free / Unlimited Feature">🆓 / 👑</span></strong><span class="ja">禁止用語を検知してブロック/マスク。</span><span class="en">Blocks or masks forbidden words.</span>
+      </a>
+      <a href="#guard-regex" class="glossary-item" data-tags="正規表現 ビルダー マスキング regex builder mask 誤爆 prevent">
+        <strong><span style="flex:1;">🪄 正規表現ビルダー</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">電話番号の伏せ字などを簡単作成。</span><span class="en">Easy regex builder for masking.</span>
+      </a>
+      <a href="#guard-time" class="glossary-item" data-tags="タイムフィルター 時間帯 制限 time filter block 誤爆 prevent">
         <strong><span style="flex:1;">🛑 時間帯送信ブロック</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">指定時間は送信をロックします。</span><span class="en">Locks sending during off-hours.</span>
       </a>
-      <a href="#tool-widget" class="glossary-item" data-tags="ウィジェット 翻訳 復元 backup translation widget">
-        <strong><span style="flex:1;">✨ ウィジェット機能</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">画面上の翻訳・復元ボタン等。</span><span class="en">Floating backup/trans buttons.</span>
+      <a href="#tool-widget" class="glossary-item" data-tags="ウィジェット 翻訳 復元 履歴 backup translation history widget 窓 tool">
+        <strong><span style="flex:1;">✨ ウィジェット機能</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">画面上の翻訳・復元・履歴ボタン。</span><span class="en">Floating translation/history buttons.</span>
       </a>
-      <a href="#tool-prompt" class="glossary-item" data-tags="定型文 起動キー テンプレート prompt template">
-        <strong><span style="flex:1;">⚡ 起動キーと定型文</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">専用キーで定型文を呼び出します。</span><span class="en">Call prompts with a shortcut.</span>
+      <a href="#tool-window" class="glossary-item" data-tags="入力窓 フローティング window floating 窓 tool">
+        <strong><span style="flex:1;">🪟 拡張入力窓</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">画面上に独立した入力枠を表示します。</span><span class="en">Independent floating input window.</span>
       </a>
-      <a href="#tool-mode" class="glossary-item" data-tags="モード private work 切替 mode copy">
-        <strong><span style="flex:1;">🔄 モード切替とコピー</span><span class="status-icon" title="Free / Unlimited Feature">🆓 / 👑</span></strong><span class="ja">仕事/個人用で設定を分けます。</span><span class="en">Separate profiles for work/private.</span>
+      <a href="#tool-newtab" class="glossary-item" data-tags="新規タブ 強制 リンク new tab link 窓 tool">
+        <strong><span style="flex:1;">🔗 新規タブ強制オープン</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">リンクを常に新しいタブで開きます。</span><span class="en">Force links to open in a new tab.</span>
+      </a>
+      <a href="#tool-prompt" class="glossary-item" data-tags="定型文 起動キー テンプレート ショートカット prompt template 効率化 efficiency">
+        <strong><span style="flex:1;">⚡ 起動キーと定型文</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">専用キーで定型文を呼び出し・保存。</span><span class="en">Call and save prompts with a shortcut.</span>
+      </a>
+      <a href="#tool-ai" class="glossary-item" data-tags="ai byok api トーン openai gemini claude ai 窓 tool">
+        <strong><span style="flex:1;">✨ AI連携・トーン調整</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">AIで文章のトーンを自動調整します。</span><span class="en">Fix tone using your own AI API key.</span>
+      </a>
+      <a href="#tool-mode" class="glossary-item" data-tags="モード private work 切替 自動 mode copy auto">
+        <strong><span style="flex:1;">🔄 モード自動切替</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">時間帯で設定モードを自動で変えます。</span><span class="en">Auto-switch profiles by time.</span>
       </a>
       <a href="#tool-native" class="glossary-item" data-tags="ネイティブ 仮想キーボード 物理 windows native keyboard bat exe">
         <strong><span style="flex:1;">💻 仮想キーボード連携</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">[Win専用] 物理信号を送る究極機能。</span><span class="en">[Win Only] Physical Enter signal.</span>
       </a>
-      <a href="#tool-manage" class="glossary-item" data-tags="エクスポート インポート プロファイル 編集 コピー ペースト export import profile">
-        <strong><span style="flex:1;">💾 プロファイル管理と移行</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">設定のコピーやデータ移行を行います。</span><span class="en">Manage and transfer profiles.</span>
-      </a>
-      <a href="#tool-license" class="glossary-item" data-tags="トライアル unlimited trial license">
-        <strong><span style="flex:1;">👑 Unlimitedライセンス</span><span class="status-icon" title="Unlimited Feature">👑</span></strong><span class="ja">30日間の試用期間と制限解除。</span><span class="en">Unlock trial limitations.</span>
+      <a href="#privacy" class="glossary-item" data-tags="プライバシー ポリシー セキュリティ privacy policy security">
+        <strong><span style="flex:1;">🔒 プライバシー・免責事項</span><span class="status-icon" title="Important">⭐</span></strong><span class="ja">データの安全性・免責に関する方針。</span><span class="en">Data privacy and disclaimers.</span>
       </a>
       <a href="#faq" class="glossary-item" data-tags="よくある質問 トラブルシューティング q&a error faq">
         <strong><span style="flex:1;">❓ よくある質問 (Q&A)</span><span class="status-icon" title="Free Feature">🆓</span></strong><span class="ja">トラブルへの対処法一覧です。</span><span class="en">Troubleshooting and errors.</span>
@@ -306,10 +348,6 @@
           <li><strong>② 改行キー (自分):</strong> あなたが改行に使いたいキー（例: <kbd>Enter</kbd>のみ）。</li>
           <li><strong>③ 送信 / ④ 改行キー (元々):</strong> そのサイトが元々標準で採用しているキー。当アプリがこの本来のキー信号を偽装してサイトに送るために、必ず正しく設定しておく必要があります。</li>
         </ul>
-        <ul class="en">
-          <li><strong>① Send / ② Newline (You):</strong> Your preferred keys.</li>
-          <li><strong>③ Send / ④ Newline (Original):</strong> The site's default keys. The app needs these to fake the signal.</li>
-        </ul>
       </div>
     </details>
   </div>
@@ -320,7 +358,7 @@
       <div class="feature-text">
         <h3 class="ja">自動取得 と スマートターゲット <span class="status-icon" title="Free Feature">🆓</span></h3>
         <h3 class="en">Auto Select & Smart Target <span class="status-icon" title="Free Feature">🆓</span></h3>
-        <p class="ja">プログラムが送信ボタンの場所（CSSセレクタ）を特定するための強力な補助ツール群です。ご自身でコードを書く必要はありません。</p>
+        <p class="ja">プログラムが送信ボタンの場所（ボタンの住所＝CSSセレクタ）を特定するための強力な補助ツール群です。ご自身でコードを書く必要はありません。</p>
         <p class="en">Tools to automatically detect the CSS selector of the send button without coding.</p>
       </div>
     </div>
@@ -345,17 +383,9 @@
         <p class="en">For sites with multiple inputs on one screen (like Slack threads or ChatGPT).</p>
       </div>
     </div>
-    <details class="manual-accordion">
-      <summary class="manual-summary"><span class="ja">👉 設定方法を見る</span><span class="en">👉 View Setup Steps</span></summary>
-      <div class="manual-content">
-        <div class="ja">
-          「複数セレクタの動的検知を有効にする」をONにし、最大5つまで登録枠を増やします。対象のタブで「🎯 自動取得」を押すと、青いツールチップがマウスに追従します。それぞれの入力欄の送信ボタンを順番にクリックして登録してください。
-        </div>
-      </div>
-    </details>
   </div>
 
-  <h2 class="chapter-title"><span class="ja">【第2章】 送信・改行方式</span><span class="en">Chapter 2: Send & Newline Methods</span></h2>
+  <h2 class="chapter-title"><span class="ja">【第2章】 送信・改行方式 と 自動タブ操作</span><span class="en">Chapter 2: Send & Tab Macros</span></h2>
   
   <div class="feature-block" id="method-send">
     <div class="feature-header">
@@ -363,7 +393,7 @@
       <div class="feature-text">
         <h3 class="ja">送信方式 (全15種類) <span class="status-icon" title="Free Feature">🆓</span></h3>
         <h3 class="en">Send Methods (15 Types) <span class="status-icon" title="Free Feature">🆓</span></h3>
-        <p class="ja">Webアプリの仕様に合わせて「プログラムでどうやって送信ボタンを押すか」のロジックを選びます。通常は「CSSクリック」で動作しますが、送信できない場合はここを変更します。</p>
+        <p class="ja">Webアプリの仕様に合わせて「プログラムでどうやって送信ボタンを押すか」のロジックを選びます。「CSSクリック」で動作しない場合はここを変更します。</p>
         <p class="en">Choose the backend logic matching the web app. Check "Show Advanced Methods" to enable all 15 powerful methods to bypass any block.</p>
       </div>
     </div>
@@ -371,22 +401,57 @@
       <summary class="manual-summary"><span class="ja">👉 15種類の詳細一覧を開く</span><span class="en">👉 Show all 15 methods</span></summary>
       <div class="manual-content" style="padding: 10px 20px 20px;">
         <table class="method-table">
-          <tr><th>CSSクリック <span class="badge badge-normal">基本</span></th><td>画面上の送信ボタンをプログラム的にクリック (<code>click()</code>) します。大半のサイトはこれで動きます。</td></tr>
-          <tr><th>信号偽装 <span class="badge badge-normal">基本</span></th><td>サイト本来の送信キー信号を同期的にブラウザに送ります。</td></tr>
-          <tr><th>強力CSSクリック <span class="badge badge-adv">高度</span></th><td>人間のマウス操作（mousedown → mouseup）を精密に偽装します。</td></tr>
-          <tr><th>強力信号偽装 <span class="badge badge-adv">高度</span></th><td>KeyUpイベントを遅延送信し、監視の厳しいサイトに対応します。</td></tr>
-          <tr><th>内部状態同期 信号 <span class="badge badge-adv">高度</span></th><td>送信信号の前に、Input/Changeイベントを強制発火させます。</td></tr>
-          <tr><th>完全非同期 信号 <span class="badge badge-adv">高度</span></th><td>タイピングの速度差を完全再現する非同期シミュレーションです。</td></tr>
-          <tr><th>プロパティ完全一致 <span class="badge badge-adv">高度</span></th><td>キーボードイベントの内部プロパティを本物と完全に一致させます。</td></tr>
-          <tr><th>Form直接送信 <span class="badge badge-adv">高度</span></th><td>ボタンではなく、親のFormタグに対して直接Submit命令を出します。</td></tr>
-          <tr><th>InputEvent偽装 <span class="badge badge-adv">高度</span></th><td>キーボードイベントを使わず、Inputイベントのみを送信します。</td></tr>
-          <tr><th>親要素バブリング <span class="badge badge-adv">高度</span></th><td>対象要素の親DIVへイベントを送信し、バブリング（伝播）を利用します。</td></tr>
-          <tr><th>旧式API信号 <span class="badge badge-adv">高度</span></th><td>古いEventモデルを使用するレガシーサイト向け。</td></tr>
-          <tr><th>ARIAボタンクリック <span class="badge badge-adv">高度</span></th><td>目に見えないアクセシビリティ用ラベル（ARIA）を探してクリックします。</td></tr>
-          <tr><th>React内部関数フック <span class="badge badge-ult">最強</span></th><td>ReactのPropsを解析し、関数を直接フックして発火させます。</td></tr>
-          <tr><th>React Fiber仮想DOM <span class="badge badge-ult">究極</span></th><td>Reactの仮想DOM(Fiber)の深部にある監視関数を直接叩きます。</td></tr>
-          <tr><th>メイン世界からの発火 <span class="badge badge-ult">究極</span></th><td>拡張機能の空間を抜け出し、サイト本体のメモリ空間にスクリプトを注入します。</td></tr>
+          <tr><th>CSSクリック <br><span class="badge badge-normal">基本</span> <span class="badge badge-rec">迷ったらコレ</span></th><td><span class="ja">画面上の送信ボタンをプログラム的にクリック (<code>click()</code>) します。大半のサイトはこれで動きます。</span><span class="en">Programmatically clicks the send button on the screen. Works for most sites.</span></td></tr>
+          
+          <tr><th>信号偽装 <br><span class="badge badge-normal">基本</span></th><td><span class="ja">サイト本来の送信キー信号を同期的にブラウザに送ります。</span><span class="en">Sends the site's native send key signal synchronously to the browser.</span></td></tr>
+          
+          <tr><th>信号偽装: 遅延KeyUp <br><span class="badge badge-adv">高度</span></th><td><span class="ja">KeyDownとKeyUpの間に人間のようなわずかな遅延を意図的に発生させます。</span><span class="en">Intentionally creates a slight human-like delay between KeyDown and KeyUp.</span></td></tr>
+          
+          <tr><th>信号偽装: 内部状態同期 <br><span class="badge badge-adv">高度</span></th><td><span class="ja">ブラウザの内部状態を強制的に同期させてからキー信号を発火します。</span><span class="en">Forces internal browser state synchronization before dispatching the key signal.</span></td></tr>
+
+          <tr><th>信号偽装: 完全非同期 <br><span class="badge badge-adv">高度</span></th><td><span class="ja">タイピングの速度差を完全再現する非同期シミュレーションです。</span><span class="en">An asynchronous simulation that perfectly replicates typing speed variations.</span></td></tr>
+
+          <tr><th>信号偽装: プロパティ完全一致 <br><span class="badge badge-adv">高度</span></th><td><span class="ja">isTrusted以外のイベントプロパティを本物のキーボード入力と完全に一致させます。</span><span class="en">Matches all event properties exactly with real keyboard input, except for isTrusted.</span></td></tr>
+
+          <tr><th>Form直接送信 <br><span class="badge badge-adv">高度</span></th><td><span class="ja">フォーム要素そのものに直接送信命令 (<code>submit()</code>) を送ります。ボタンがない古いサイトに有効です。</span><span class="en">Sends a direct submit command to the form element. Useful for old sites without explicit buttons.</span></td></tr>
+
+          <tr><th>強力CSSクリック <br><span class="badge badge-adv">高度</span></th><td><span class="ja">人間のマウス操作（mouseover → mousedown → mouseup → click）を精密に偽装します。</span><span class="en">Precisely simulates human mouse actions (mouseover, mousedown, mouseup, click).</span></td></tr>
+
+          <tr><th>React/Vue内部関数直叩き <br><span class="badge badge-adv">高度</span></th><td><span class="ja">モダンフレームワークのコンポーネントが持つイベントハンドラを直接呼び出します。</span><span class="en">Directly calls the internal event handlers attached to modern framework components.</span></td></tr>
+
+          <tr><th>InputEvent偽装 <br><span class="badge badge-adv">高度</span></th><td><span class="ja">キー信号ではなく、入力イベントとして送信・改行を通知します。</span><span class="en">Notifies send/newline as an InputEvent rather than a raw key signal.</span></td></tr>
+
+          <tr><th>親要素バブリング送信 <br><span class="badge badge-adv">高度</span></th><td><span class="ja">ボタンそのものではなく、周囲を囲む親要素に対して送信イベントを伝播(バブリング)させます。</span><span class="en">Propagates the send event to the surrounding parent element instead of the button itself.</span></td></tr>
+
+          <tr><th>旧式API信号 <br><span class="badge badge-adv">高度</span></th><td><span class="ja">廃止予定の古いキーボードイベントAPIをあえて使用します。古い社内システムに有効な場合があります。</span><span class="en">Intentionally uses deprecated legacy keyboard event APIs. Sometimes effective on old corporate systems.</span></td></tr>
+
+          <tr><th>非表示ARIAボタン強制クリック <br><span class="badge badge-adv">高度</span></th><td><span class="ja">アクセシビリティ用の非表示ボタン（aria-label="送信"等）を探し出して強制的にクリックします。</span><span class="en">Finds and forcibly clicks hidden accessibility buttons (e.g., aria-label="Send").</span></td></tr>
+
+          <tr><th>React Fiber仮想DOM走破 <br><span class="badge badge-ult">最強</span></th><td><span class="ja">Reactの仮想DOM(Fiber)の深部にある監視関数を直接叩きます。裏側で動いているシステムに直接「送信した」と思い込ませる最強の突破方法です。</span><span class="en">Directly triggers listener functions deep within React's Virtual DOM (Fiber). The ultimate bypass method.</span></td></tr>
+
+          <tr><th>メイン世界からの発火 <br><span class="badge badge-ult">究極</span></th><td><span class="ja">拡張機能の空間を抜け出し、サイト本体のメモリ空間にスクリプトを注入して発火させます。厳格なセキュリティの壁を越えます。</span><span class="en">Escapes the extension context and injects scripts directly into the site's main memory space to bypass strict security.</span></td></tr>
         </table>
+      </div>
+    </details>
+  </div>
+
+  <div class="feature-block" id="macro-after">
+    <div class="feature-header">
+      <div class="feature-icon">🚀</div>
+      <div class="feature-text">
+        <h3 class="ja">送信後マクロ (自動タブ操作) <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">After Send Macro (Auto Tab Action) <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">送信が完了した直後に、ブラウザのタブを自動で操作する機能です。大量の問い合わせ処理や連続投稿など、ルーチンワークの効率を劇的に向上させます。</p>
+        <p class="en">Automatically close or move to the next tab immediately after sending.</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 操作の種類</span><span class="en">👉 Action Types</span></summary>
+      <div class="manual-content">
+        <ul class="ja">
+          <li><strong>現在のタブを閉じる:</strong> 送信完了と同時に、いま開いているタブを閉じます。</li>
+          <li><strong>隣のタブへ移動する:</strong> 送信後、右（または左）のタブへ自動でフォーカスを移します。「端のタブなら反対の端に戻る（ループ）」設定も可能です。</li>
+        </ul>
       </div>
     </details>
   </div>
@@ -420,7 +485,7 @@
       <div class="feature-text">
         <h3 class="ja">システム文字入力方式 (全5種) <span class="status-icon" title="Free Feature">🆓</span></h3>
         <h3 class="en">System Input Methods <span class="status-icon" title="Free Feature">🆓</span></h3>
-        <p class="ja">「プログラムでどうやって文字（定型文や翻訳結果）を挿入するか」の設定です。特殊なエディタ（Teams等）で<strong>「送信後に文字が消える」</strong>といったバグが起きる場合はこちらを変更します。</p>
+        <p class="ja">「プログラムでどうやって文字（定型文や翻訳結果）を挿入するか」の設定です。特殊なエディタで<strong>「送信後に文字が消える」「改行が反映されない」</strong>といったバグが起きる場合はこちらを変更します。</p>
         <p class="en">Controls how text is inserted. Used when text disappears on complex rich-text editors (like Teams).</p>
       </div>
     </div>
@@ -429,7 +494,7 @@
       <div class="manual-content" style="padding: 10px 20px 20px;">
         <table class="method-table">
           <tr><th>標準 <span class="badge badge-normal">基本</span></th><td>通常の流し込み（標準的なJavaScriptを使用）を行います。</td></tr>
-          <tr><th>仮想ペースト <span class="badge badge-adv">Teams推奨</span></th><td>裏側で「貼り付け（Paste）」イベントを発生させます。文字消えバグ等に最適です。</td></tr>
+          <tr><th>仮想ペースト <span class="badge badge-adv">Teams推奨</span></th><td>裏側で「貼り付け（Paste）」イベントを発生させます。Teamsなどのリッチテキストエディタの文字消えバグに最適です。</td></tr>
           <tr><th>クリップボード経由 <span class="badge badge-adv">高度</span></th><td>本物のOSクリップボードを一時的に書き換えてペーストを実行する荒業です。</td></tr>
           <tr><th>仮想入力枠経由 <span class="badge badge-adv">高度</span></th><td>画面外に透明なテキストエリアを作り、そこを経由して文字を流し込みます。</td></tr>
           <tr><th>信号先行書き込み <span class="badge badge-adv">高度</span></th><td>IME（日本語入力）の信号を先行発火させてからテキストを挿入します。</td></tr>
@@ -438,30 +503,7 @@
     </details>
   </div>
 
-  <div class="feature-block" id="method-clear">
-    <div class="feature-header">
-      <div class="feature-icon">🧹</div>
-      <div class="feature-text">
-        <h3 class="ja">テキスト消去方式 (全4種) <span class="status-icon" title="Free Feature">🆓</span></h3>
-        <h3 class="en">Text Clear Methods <span class="status-icon" title="Free Feature">🆓</span></h3>
-        <p class="ja">翻訳や復元の実行前に、現在の入力欄に残っている文字を「どうやって空にするか」の設定です。</p>
-        <p class="en">How to clear the text box before restoring or translating text.</p>
-      </div>
-    </div>
-    <details class="manual-accordion">
-      <summary class="manual-summary"><span class="ja">👉 4種類の詳細一覧を開く</span><span class="en">👉 Show all 4 methods</span></summary>
-      <div class="manual-content" style="padding: 10px 20px 20px;">
-        <table class="method-table">
-          <tr><th>標準 <span class="badge badge-normal">基本</span></th><td>「すべて選択」のみを行います（その後の入力で上書きされることを期待します）。</td></tr>
-          <tr><th>Deleteコマンド発火 <span class="badge badge-adv">高度</span></th><td>すべて選択した後に、強制的にDeleteコマンドを実行して空にします。</td></tr>
-          <tr><th>Backspaceエミュレート <span class="badge badge-adv">高度</span></th><td>Backspaceキーが押されたという信号をエディタに送ります。</td></tr>
-          <tr><th>HTML強制クリア <span class="badge badge-ult">究極</span></th><td>対象要素の <code>innerHTML</code> を強制的に空に書き換えます。</td></tr>
-        </table>
-      </div>
-    </details>
-  </div>
-
-  <h2 class="chapter-title"><span class="ja">【第4章】 誤爆防止機能</span><span class="en">Chapter 4: Mistake Protection</span></h2>
+  <h2 class="chapter-title"><span class="ja">【第4章】 誤爆防止とブロック機能</span><span class="en">Chapter 4: Protections & Blocks</span></h2>
   
   <div class="feature-block" id="guard-countdown">
     <div class="feature-header">
@@ -473,45 +515,67 @@
         <p class="en">Start a countdown before sending. Click cancel if you notice a mistake.</p>
       </div>
     </div>
-    <details class="manual-accordion">
-      <summary class="manual-summary"><span class="ja">👉 便利なスキップ設定について</span><span class="en">👉 Skip Settings</span></summary>
-      <div class="manual-content">
-        <div class="ja">設定画面で「もう一度はいを押せばすぐに送信できる」をONにすると、カウントダウンの待機中であっても、もう一度「はい」のボタンを押すことで待たずに即時送信が可能になります。テンポを落とさずに安全を確保できます。</div>
+  </div>
+
+  <div class="feature-block" id="guard-popup">
+    <div class="feature-header">
+      <div class="feature-icon" style="color:var(--primary);">💬</div>
+      <div class="feature-text">
+        <h3 class="ja">送信確認ポップアップ <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">Send Confirmation Popup <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">送信の瞬間に画面中央に「本当に送信しますか？」という確認画面を出します。「Enter連打による誤爆」を防ぐため、操作方法を『クリックのみ許可』に限定することも可能です。</p>
+        <p class="en">Show a confirmation popup. Can be restricted to mouse-click only to prevent rapid Enter key mistakes.</p>
       </div>
-    </details>
+    </div>
   </div>
 
   <div class="feature-block" id="guard-ng">
     <div class="feature-header">
       <div class="feature-icon" style="color:var(--clr-guard);">🚫</div>
       <div class="feature-text">
-        <h3 class="ja">NGワード検知 <span class="status-icon" title="Free Feature">🆓</span></h3>
-        <h3 class="en">NG Words <span class="status-icon" title="Free Feature">🆓</span></h3>
-        <p class="ja">登録した言葉（社外秘、機密など）が含まれている場合、送信時に検知して警告を出したり、送信を完全にブロックしたりできます。</p>
-        <p class="en">Blocks or warns when registered forbidden words are detected in the message.</p>
+        <h3 class="ja">NGワード検知 <span class="status-icon" title="Free / Unlimited Feature">🆓 / 👑</span></h3>
+        <h3 class="en">NG Words <span class="status-icon" title="Free / Unlimited Feature">🆓 / 👑</span></h3>
+        <p class="ja">登録した言葉が含まれている場合、送信時に検知して警告を出したり、送信を完全にブロックしたりできます。※「自動マスキング（***置換）」機能はUnlimited版限定です。</p>
+        <p class="en">Blocks, warns, or masks when registered forbidden words are detected. (*Auto-masking is Unlimited only).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-block" id="guard-regex">
+    <div class="feature-header">
+      <div class="feature-icon" style="color:var(--clr-guard);">🪄</div>
+      <div class="feature-text">
+        <h3 class="ja">NGワード かんたん正規表現ビルダー <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">NG Word Regex Builder <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">難しいプログラム知識（正規表現）がなくても、電話番号やクレジットカード番号、メールアドレスを検知・伏せ字にするためのルールを画面上で直感的に作成できます。</p>
+        <p class="en">Build complex regex for phone numbers or emails intuitively without coding.</p>
       </div>
     </div>
     <details class="manual-accordion">
-      <summary class="manual-summary"><span class="ja">👉 動作の選択について</span><span class="en">👉 Action Options</span></summary>
+      <summary class="manual-summary"><span class="ja">👉 ビルダーの便利な機能</span><span class="en">👉 Builder Features</span></summary>
       <div class="manual-content">
-        <div class="ja">検知時のアクションは「強制ブロック（一切送信させない）」か「警告して確認（赤文字のダイアログを出し、もう一度『はい』を押せば送信できる）」の2種類から選べます。</div>
+        <ul class="ja">
+          <li><strong>定番プリセット:</strong> 「電話番号の下4桁だけ残して伏せ字にする」「URLをブロックする」など、よく使うルールをワンクリックで生成します。</li>
+          <li><strong>見たまま逆算:</strong> <code>***-****-####</code>（#は残す数字、*は隠す数字）のように、最終的に表示させたい形を入力するだけで、賢くルールを逆算して作成します。</li>
+          <li><strong>すり抜け対策:</strong> 全角/半角の違い、大文字/小文字、ひらがな/カタカナ、ローマ字入力（baka/vaka等）の表記揺れをすべて同一視する強力なオプションを備えています。</li>
+        </ul>
       </div>
     </details>
   </div>
 
   <div class="feature-block" id="guard-time">
     <div class="feature-header">
-      <div class="feature-icon">🛑</div>
+      <div class="feature-icon" style="color:var(--clr-guard);">🛑</div>
       <div class="feature-text">
-        <h3 class="ja">時間帯送信ブロック (タイムフィルター) <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="ja">時間帯送信ブロック <span class="status-icon" title="Unlimited Feature">👑</span></h3>
         <h3 class="en">Time-based Send Block <span class="status-icon" title="Unlimited Feature">👑</span></h3>
-        <p class="ja">指定した時間帯（例：22:00〜08:00など）の送信操作を完全にブロックします。働き方改革や、深夜のテンションでの誤送信を防止するのに役立ちます。</p>
-        <p class="en">Completely blocks sending during specified hours to prevent accidental off-hours messaging.</p>
+        <p class="ja">指定した時間帯（例: 深夜や休日）は強制的に送信ボタンをロックし、意図しない時間外の業務連絡や誤爆を防止します。</p>
+        <p class="en">Force lock the send button during specific hours (e.g. late night) to prevent off-hours communication.</p>
       </div>
     </div>
   </div>
 
-  <h2 class="chapter-title"><span class="ja">【第5章】 ウィジェット ＆ 定型文</span><span class="en">Chapter 5: Widgets & Templates</span></h2>
+  <h2 class="chapter-title"><span class="ja">【第5章】 ウィジェット ＆ 拡張入力窓</span><span class="en">Chapter 5: Widgets & Floating Windows</span></h2>
   
   <div class="feature-block" id="tool-widget">
     <div class="feature-header">
@@ -528,15 +592,49 @@
       <div class="manual-content">
         <ul class="ja" style="margin-top:0;">
           <li style="margin-bottom:10px;"><strong>🌐 翻訳 (Trans):</strong> 入力中のテキストを「英語⇔日本語」に自動翻訳します。通信を行うため元の文章は自動的にバックアップされます。</li>
-          <li style="margin-bottom:10px;"><strong>🕒 復元 (Backup):</strong> 一定秒数ごとの自動バックアップ（最大50,000文字）からテキストを復元します。タブを消してしまった時などに重宝します。</li>
-          <li style="margin-bottom:10px;"><strong>📝 カウンタ (Count):</strong> 文字数をリアルタイムでカウントし、設定した上限に到達すると赤く警告します。</li>
-          <li><strong>🔄 モード表示 (Mode):</strong> 現在がPrivateモードかWorkモードかを視覚的に表示します。</li>
+          <li style="margin-bottom:10px;"><strong>🕒 復元 (Backup):</strong> 一定秒数ごとの自動バックアップからテキストを復元します。タブを消してしまった時などに重宝します。</li>
+          <li style="margin-bottom:10px;"><strong>📜 履歴 (History):</strong> 過去に送信した直近10件のメッセージ履歴を保存し、いつでも呼び出して再入力できます。</li>
+          <li><strong>📝 カウンタ (Count):</strong> 文字数をリアルタイムでカウントし、設定した上限に到達すると赤く警告します。</li>
         </ul>
       </div>
     </details>
   </div>
 
-  <div class="feature-block" id="tool-prompt">
+  <div class="feature-block" id="tool-window">
+    <div class="feature-header">
+      <div class="feature-icon" style="color:var(--primary-light);">🪟</div>
+      <div class="feature-text">
+        <h3 class="ja">拡張入力窓 (フローティングウィンドウ) <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">Independent Floating Input Window <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">元のサイトの入力欄が狭くて見づらい場合に、画面上に大きく独立した「拡張入力窓」を呼び出して快適に長文を作成できます。</p>
+        <p class="en">Call up a large, independent input window to comfortably write long texts when the site's input box is too small.</p>
+      </div>
+    </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 設定のポイント</span><span class="en">👉 Setup Points</span></summary>
+      <div class="manual-content">
+        <ul class="ja">
+          <li><strong>開閉キー:</strong> 任意のショートカットキー（例: Ctrl + M）で瞬時に窓を開け閉めできます。</li>
+          <li><strong>ペースト時の改行処理:</strong> 「連続改行を半減」を選ぶと、リッチテキストからコピペした際に無駄に空いてしまう行間を自動で綺麗に整えます。</li>
+          <li><strong>送信キーの挙動:</strong> 窓の中で送信キーを押した時、「そのまま実際に送信まで行う」か「元のサイトの入力枠へ文字を移す（Apply）だけに留める」かを選べます。</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="feature-block" id="tool-newtab">
+    <div class="feature-header">
+      <div class="feature-icon" style="color:var(--primary);">🔗</div>
+      <div class="feature-text">
+        <h3 class="ja">新規タブ強制オープン機能 <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">Force Links to New Tab <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">ONにすると専用のウィジェットが表示され、クリックで機能を有効化している間は「ページ内のあらゆるリンク」が強制的に新しいタブで開くようになります。情報収集時に現在のページを見失うのを防ぎます。</p>
+        <p class="en">Force all links on the page to open in a new tab via a toggleable widget.</p>
+      </div>
+    </div>
+  </div>
+
+<div class="feature-block" id="tool-prompt">
     <div class="feature-header">
       <div class="feature-icon" style="color:var(--clr-widget);">⚡</div>
       <div class="feature-text">
@@ -546,17 +644,48 @@
         <p class="en">Press the Trigger Key to open a template menu directly on the screen for instant pasting into the input box.</p>
       </div>
     </div>
+    <details class="manual-accordion">
+      <summary class="manual-summary"><span class="ja">👉 便利なショートカット保存</span><span class="en">👉 Quick Save Shortcut</span></summary>
+      <div class="manual-content">
+        <div class="ja">設定画面で「選択テキストをショートカットで保存」をONにし、キー（例: <kbd>Ctrl</kbd>+<kbd>1</kbd>）を割り当てておくと、ブラウザ上で文字を選択した状態でそのショートカットを押すだけで、一瞬で定型文としてアプリに保存できます。</div>
+      </div>
+    </details>
   </div>
 
-  <h2 class="chapter-title"><span class="ja">【第6章】 モード切替</span><span class="en">Chapter 6: Mode Switch</span></h2>
+  <div class="feature-block" id="tool-ai">
+    <div class="feature-header">
+      <div class="feature-icon" style="color:var(--clr-ai);">✨</div>
+      <div class="feature-text">
+        <h3 class="ja">AI連携 ＆ トーン調整機能 (BYOK方式) <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">AI Integration & Tone Fixer <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">入力窓の中にAIアイコン(✨)を追加し、あなたが書いた文章をAIが自動で「丁寧な言葉遣い」「簡潔な報告」などに書き直してくれます。</p>
+        <p class="en">Adds an AI icon (✨) to the input window to automatically fix the tone of your text (e.g. make it polite or concise).</p>
+      </div>
+    </div>
+    <details class="manual-accordion" open>
+      <summary class="manual-summary"><span class="ja">👉 APIキーの設定と注意点</span><span class="en">👉 API Key Setup & Warnings</span></summary>
+      <div class="manual-content">
+        <div class="ja">
+          <p style="margin-top:0;">本機能は<strong>BYOK（Bring Your Own Key = 利用者自身のAPIキーを使用する）方式</strong>です。OpenAI、Anthropic、GeminiなどのAPIキーを直接設定画面に入力して使用します。</p>
+          <ul style="margin-bottom:0;">
+            <li><strong>対応プロバイダ:</strong> OpenAI (ChatGPT), Anthropic (Claude), Google Gemini, DeepSeek, Groq, OpenRouter, xAI など。設定画面の「🔑 取得ページ」から各社の発行画面へ飛べます。</li>
+            <li><strong>利用料金:</strong> AIの利用（トークン消費）にかかるAPI料金は、利用者の自己負担となります。</li>
+            <li><strong>テスト機能:</strong> 設定画面の「接続テスト」を押すと、正しくキーが設定されているか確認できます（極小のトークンを消費します）。</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <h2 class="chapter-title"><span class="ja">【第6章】 モード自動切替</span><span class="en">Chapter 6: Auto Mode Switch</span></h2>
   
   <div class="feature-block" id="tool-mode">
     <div class="feature-header">
       <div class="feature-icon">🔄</div>
       <div class="feature-text">
-        <h3 class="ja">Private / Work モードとコピー機能 <span class="status-icon" title="Free / Unlimited Feature">🆓 / 👑</span></h3>
-        <h3 class="en">Private & Work Modes <span class="status-icon" title="Free / Unlimited Feature">🆓 / 👑</span></h3>
-        <p class="ja">「個人用」と「仕事用」の2つのモードを持ち、指定した時間帯での自動切替が可能です（例：09:00〜18:00は自動でWorkへ）。プロファイル一覧の「⋮」から、作った設定をもう片方のモードへ一括コピーすることもできます（※別モードへのコピー機能はUnlimited版限定です）。</p>
+        <h3 class="ja">Private / Work モードの自動切替 <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">Auto-Switch Private & Work Modes <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">「個人用」と「仕事用」の2つのモードを持ち、指定した時間帯での自動切替が可能です（例：09:00〜18:00は自動でWorkモードへ）。プロファイル一覧の「⋮」から、作った設定をもう片方のモードへ一括コピーすることもできます（※別モードへのコピー機能もUnlimited版限定です）。</p>
         <p class="en">Switch between "Private" and "Work" modes automatically based on time. You can easily duplicate profiles between modes (cross-mode copy requires Unlimited version).</p>
       </div>
     </div>
@@ -593,38 +722,27 @@
     </details>
   </div>
 
-  <h2 class="chapter-title"><span class="ja">【第8章】 プロファイル管理とエクスポート／インポート</span><span class="en">Chapter 8: Profile Management & Export/Import</span></h2>
+  <h2 class="chapter-title"><span class="ja">【第8章】 プロファイル管理とデータ移行</span><span class="en">Chapter 8: Profile Management</span></h2>
   
   <div class="feature-block" id="tool-manage">
     <div class="feature-header">
       <div class="feature-icon">💾</div>
       <div class="feature-text">
-        <h3 class="ja">設定の複製とデータの移行 <span class="status-icon" title="Unlimited Feature">👑</span></h3>
-        <h3 class="en">Duplicate Settings & Data Transfer <span class="status-icon" title="Unlimited Feature">👑</span></h3>
-        <p class="ja">作成したプロファイル設定は、他のサイト用に部分的にコピーしたり、ファイルとして書き出して別のPCに移行することができます。（※一部機能はUnlimited版限定です）</p>
-        <p class="en">You can copy profile settings for other sites, or export them as a file to transfer to another PC. (*Some features require Unlimited)</p>
+        <h3 class="ja">設定の複製・エクスポート・インポート <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <h3 class="en">Duplicate, Export, and Import <span class="status-icon" title="Unlimited Feature">👑</span></h3>
+        <p class="ja">作成したプロファイル設定は、他のサイト用に部分的にコピーしたり、ファイルとして書き出して別のPCに移行することができます。（※インポート/エクスポート機能等はUnlimited版限定です）</p>
+        <p class="en">You can copy profile settings for other sites, or export them as a file to transfer to another PC. (*Import/Export requires Unlimited)</p>
       </div>
     </div>
     <details class="manual-accordion">
-      <summary class="manual-summary"><span class="ja">👉 プロファイル一覧のボタンについて</span><span class="en">👉 About Profile Buttons</span></summary>
+      <summary class="manual-summary"><span class="ja">👉 各ボタンの役割</span><span class="en">👉 Button Functions</span></summary>
       <div class="manual-content">
         <ul class="ja" style="margin-top:0;">
-          <li style="margin-bottom:10px;"><strong>✏️ 編集:</strong> プロファイルの設定内容を再編集します。</li>
-          <li style="margin-bottom:10px;"><strong>📋 コピー / 📋 ペースト:</strong> 選択したプロファイルの設定（基本設定、詳細設定、NGワード、定型文など）を選んでコピーし、別のプロファイルに貼り付けます。<span class="status-icon" title="Free Feature">🆓</span></li>
-          <li style="margin-bottom:10px;"><strong>🗑️ 削除:</strong> プロファイルを削除します。</li>
-          <li><strong>⋮ (別モードへコピー):</strong> 現在のプロファイルを、もう片方のモード（Work⇔Private）へ複製します。<span class="status-icon" title="Unlimited Feature">👑</span><br><small style="color:var(--text-muted);">※カスタムプロファイルの別モードへのコピーはUnlimited版限定です。</small></li>
+          <li style="margin-bottom:10px;"><strong>📋 コピー / 📋 ペースト:</strong> 選択したプロファイルの設定を選んでコピーし、別のプロファイルに貼り付けます。<span class="status-icon" title="Free Feature">🆓</span></li>
+          <li style="margin-bottom:10px;"><strong>⋮ 一括アクション:</strong> 複数のプロファイルにチェックを入れ、もう片方のモード（Work⇔Private）へ一気にコピーします。<span class="status-icon" title="Unlimited Feature">👑</span></li>
+          <li style="margin-bottom:10px;"><strong>↓ エクスポート:</strong> プロファイルを <code>.cep</code> ファイルとしてPCに保存します（バックアップ用）。<span class="status-icon" title="Unlimited Feature">👑</span></li>
+          <li><strong>↑ インポート:</strong> 保存した <code>.cep</code> ファイルを読み込み、別のPCに設定を復元します。<span class="status-icon" title="Unlimited Feature">👑</span></li>
         </ul>
-      </div>
-    </details>
-    <details class="manual-accordion">
-      <summary class="manual-summary"><span class="ja">👉 エクスポートとインポートについて</span><span class="en">👉 Export and Import</span></summary>
-      <div class="manual-content">
-        <div class="ja">
-          <p style="margin-top:0; font-weight:bold; color:var(--primary-dark);">■ エクスポート（書き出し） <span class="status-icon" title="Unlimited Feature">👑</span></p>
-          <p style="margin-bottom:15px;">設定画面下部の「エクスポート」ボタンから、選択したプロファイルを <code>.cep</code> ファイルとしてPCに保存します。バックアップや、他のPCへの設定移行に使用します。</p>
-          <p style="font-weight:bold; color:var(--primary-dark);">■ インポート（読み込み） <span class="status-icon" title="Unlimited Feature">👑</span></p>
-          <p style="margin-bottom:0;">「インポート」ボタンから、保存した <code>.cep</code> ファイルを読み込みます。既存のプロファイルと上書きするか、結合するかを選択できます。<br><small style="color:var(--text-muted);">※エクスポートおよびインポート機能の利用はUnlimited版限定です（無料トライアル期間中は使用可能です）。</small></p>
-        </div>
       </div>
     </details>
   </div>
@@ -641,24 +759,74 @@
         <p class="en">You can use all features for free for 30 days after installation.</p>
       </div>
     </div>
-    <details class="manual-accordion" open> <summary class="manual-summary"><span class="ja">👉 試用終了後の制限と、Unlimited版について</span><span class="en">👉 After Trial & Unlimited</span></summary>
+    <details class="manual-accordion" open>
+      <summary class="manual-summary"><span class="ja">👉 試用終了後の制限と、Unlimited版について</span><span class="en">👉 After Trial & Unlimited</span></summary>
       <div class="manual-content">
         <div class="ja">
           <p style="margin-top:0; font-weight:bold; color:#856404;">⚠️ 試用期間終了後の制限 (フリーモード)</p>
           <ul style="margin-top:5px; margin-bottom:20px;">
-            <li>カスタムプロファイル（ご自身で追加した独自ドメイン）は<strong>「最大2つ」</strong>までしか有効化できません。（無料で使い続けるドメインを2つ選択してください）。超過したプロファイルはロックされます。</li>
-            <li>ウィジェット機能、送信フィルタ、モード間の一括コピー、インポート機能がロックされます。</li>
+            <li>カスタムプロファイル（ご自身で追加した独自ドメイン）は<strong>「最大2つ」</strong>までしか有効化できません。超過した分はロックされます。</li>
+            <li>各種ウィジェット機能、送信フィルタ、自動モード切替、AI連携、インポート・エクスポート等の 👑(Unlimited) アイコンがついた機能がロックされます。</li>
           </ul>
           <p style="font-weight:bold; color:var(--primary-dark);">👑 Unlimited版（制限解除）について</p>
-          <p style="margin-top:5px; margin-bottom:0;">シリアルキーをご購入いただき、設定画面の「🔑」アイコンから認証を行うことで、永久にすべての制限が解除され「Unlimited版」としてご利用いただけます。PCの移行を行った場合でも、お持ちのシリアルキーを再度入力すれば復活します。</p>
+          <p style="margin-top:5px; margin-bottom:0;">シリアルキーをご購入いただき、設定画面の「🔑」アイコンから認証を行うことで、永久にすべての制限が解除され「Unlimited版」としてご利用いただけます。PCの移行を行った場合でも、お持ちのシリアルキーを再度入力すれば復旧可能です。</p>
         </div>
       </div>
     </details>
   </div>
 
+  <h2 class="chapter-title" id="privacy"><span class="ja">【第10章】 プライバシーポリシー ＆ データ取り扱い・免責事項</span><span class="en">Chapter 10: Privacy Policy & Disclaimer</span> <span class="status-icon" title="Important">⭐</span></h2>
+  
+  <div class="feature-block privacy-box">
+    <p class="ja" style="margin-top:0;">Custom Enter Pro（以下、本拡張機能）は、あらゆるWebサービスで一貫性のない送信操作や入力を統一し、ユーザーが快適に作業できる環境を提供することを目的とした<strong>個人開発のツール</strong>です。安心してご利用いただくため、データの取り扱いおよび免責事項について以下の方針を定めています。</p>
+    <p class="en" style="margin-top:0;">Custom Enter Pro aims to unify inconsistent send operations across various web services. It is an independently developed tool. To ensure your peace of mind, we have established the following data handling and disclaimer policies.</p>
+    
+    <div class="ja">
+      <h4 style="color:var(--primary-dark); margin-bottom: 5px;">1. 入力データの徹底保護（一切の収集・外部送信なし）</h4>
+      <p style="margin-top:0; margin-bottom:15px; font-size:15px;">本拡張機能は、ユーザーが入力したテキスト、定型文、プロファイル設定、ブラウジング履歴などの一切の個人データを収集しません。すべてのデータはユーザーのブラウザ内（ローカル環境）にのみ保存され、開発者や第三者のサーバーへ自動的に送信されることは絶対にありません。</p>
+
+      <h4 style="color:var(--primary-dark); margin-bottom: 5px;">2. 外部API通信を伴う機能について</h4>
+      <p style="margin-top:0; margin-bottom:10px; font-size:15px;">一部の機能においてのみ、ユーザーの明示的な操作によって外部サービスとの通信が発生します。</p>
+      <ul style="font-size:15px; margin-bottom:15px;">
+        <li><strong>翻訳機能:</strong> 翻訳ウィジェットを使用した場合のみ、対象テキストがGoogleの翻訳APIへ送信されます。</li>
+        <li><strong>AI連携・トーン調整機能:</strong> 本機能はBYOK（Bring Your Own Key = 利用者自身のAPIキーを使用する）方式です。AI機能を利用した際、入力されたデータはお客様が設定したAIプロバイダ（OpenAI、Anthropic、Google等）のサーバーへ送信されます。</li>
+      </ul>
+
+      <h4 style="color:var(--primary-dark); margin-bottom: 5px;">3. 免責事項（自己責任の原則）</h4>
+      <p style="margin-top:0; margin-bottom:10px; font-size:15px; font-weight:bold; color:var(--danger);">本拡張機能は個人開発のツールであり、「現状有姿（As-Is）」で提供されます。ご利用はすべてお客様ご自身の自己責任となります。</p>
+      <ul style="font-size:14px; margin-bottom:15px; color:var(--text-muted);">
+        <li style="margin-bottom:8px;"><strong>損害の非保証:</strong> 本拡張機能の利用、または利用できなかったことにより発生したいかなる直接的・間接的損害（データの消失、業務の遅延・停止、逸失利益、第三者からの損害賠償請求など）について、開発者は一切の法的責任および賠償責任を負いません。</li>
+        <li style="margin-bottom:8px;"><strong>企業ポリシー等の遵守:</strong> 企業や組織の端末でご利用の際、組織のセキュリティポリシー違反や内部規程違反等により生じた不利益・処分・損害について、開発者は一切関与せず責任を負いません。本ツールの導入可否は、事前にお客様の所属組織にてご確認ください。</li>
+        <li style="margin-bottom:8px;"><strong>動作保証と仕様変更:</strong> 対象となるWebサービス（ChatGPT、Teams、Slack、各種業務システムなど）側の仕様変更やアップデートにより、本拡張機能が突然動作しなくなる場合があります。恒久的な動作保証や、動作不能を理由としたライセンス費用の返金等には応じかねます。</li>
+        <li><strong>AI処理と情報漏洩リスク:</strong> AI機能を利用した際の情報漏洩リスクや、各AIプロバイダ側でのデータ処理におけるトラブル・学習利用に関する問題について、開発者は一切の責任を負いません。機密情報や個人情報をAI機能に入力する際は、お客様自身で各AIサービスの規約およびオプトアウト設定をご確認ください。</li>
+      </ul>
+    </div>
+    
+    <div class="en" style="margin-top: 30px;">
+      <h4 style="color:var(--primary-dark); margin-bottom: 5px;">1. Absolute Protection of Input Data</h4>
+      <p style="margin-top:0; margin-bottom:15px; font-size:15px;">This extension does NOT collect any personal data, including text input, templates, profile settings, or browsing history. All data is saved strictly within your local browser environment. It will NEVER be automatically sent to the developer's or any third-party servers.</p>
+
+      <h4 style="color:var(--primary-dark); margin-bottom: 5px;">2. Features Involving External API Communication</h4>
+      <p style="margin-top:0; margin-bottom:10px; font-size:15px;">Communication with external services only occurs through your explicit actions in specific features:</p>
+      <ul style="font-size:15px; margin-bottom:15px;">
+        <li><strong>Translation:</strong> Text is sent to the translation API only when you use the translation widget.</li>
+        <li><strong>AI Integration:</strong> This uses a Bring Your Own Key (BYOK) system. Your input data is sent directly to your configured AI provider (OpenAI, Anthropic, etc.).</li>
+      </ul>
+
+      <h4 style="color:var(--primary-dark); margin-bottom: 5px;">3. Disclaimer (Principle of Self-Responsibility)</h4>
+      <p style="margin-top:0; margin-bottom:10px; font-size:15px; font-weight:bold; color:var(--danger);">This extension is an independently developed tool and is provided "As-Is". Your use of this tool is entirely at your own risk.</p>
+      <ul style="font-size:14px; margin-bottom:15px; color:var(--text-muted);">
+        <li style="margin-bottom:8px;"><strong>No Warranty for Damages:</strong> The developer assumes no legal or financial liability for any direct, indirect, incidental, or consequential damages (including data loss, business interruption, loss of profit, or third-party claims) arising from the use or inability to use this extension.</li>
+        <li style="margin-bottom:8px;"><strong>Corporate Policies:</strong> When using this on corporate devices, the developer is not responsible for any penalties, disadvantages, or damages resulting from violations of your organization's security policies or internal regulations. Please verify with your organization before installation.</li>
+        <li style="margin-bottom:8px;"><strong>Functionality Guarantee:</strong> Web services (ChatGPT, Teams, Slack, etc.) may change their specifications, which could cause this extension to stop working. We do not provide permanent functionality guarantees and will not issue refunds for license fees due to such unworkability.</li>
+        <li><strong>AI Data Risks:</strong> The developer is not liable for data leaks or issues regarding data processing and AI training by AI providers. Always check the terms and opt-out settings of your chosen AI service before inputting confidential information.</li>
+      </ul>
+    </div>
+  </div>
+
   <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin: 80px 0 40px; scroll-margin-top: 100px;" id="faq">
     <h2 class="chapter-title" style="margin: 0; padding-bottom: 0; border-bottom: none;">
-      <span class="ja">【第10章】 よくある質問 (Q&A)</span><span class="en">Chapter 10: Frequently Asked Questions</span> <span class="status-icon" title="Free Feature">🆓</span>
+      <span class="ja">【第11章】 よくある質問 (Q&A)</span><span class="en">Chapter 11: Frequently Asked Questions</span> <span class="status-icon" title="Free Feature">🆓</span>
     </h2>
     <div class="toggle-all-container">
       <button class="toggle-all-btn" onclick="toggleAllDetails('faq-accordion', true)"><span class="ja">＋ すべて開く</span><span class="en">＋ Expand All</span></button>
@@ -672,7 +840,7 @@
       <summary class="faq-summary"><span class="ja">Q. 設定を保存したのに、チャット画面で動きません。</span><span class="en">Q. I saved but it doesn't work on the chat screen.</span></summary>
       <div class="faq-content">
         <div class="ja">設定を保存した後は、対象のチャット画面（タブ）を一度<strong>「リロード（F5キーまたは更新ボタン）」</strong>してください。<br>それでも動かない場合は、現在の拡張機能のモード（Private / Work）が、設定したプロファイルのモードと一致しているか確認してください。</div>
-        <div class="en">Always <strong>reload (press F5)</strong> the target chat tab after saving. Also, ensure your Global Mode matches the profile mode.</div>
+        <div class="en">After saving settings, please <strong>reload (F5)</strong> the target chat tab.<br>If it still doesn't work, check if your current mode (Private/Work) matches the profile's mode.</div>
       </div>
     </details>
 
@@ -685,89 +853,127 @@
           ・<strong>改行文字が消える時（Teams等）：</strong> 第3章「システム文字入力方式」を『仮想ペースト』に変える。<br>
           ・<strong>どうしてもダメな時：</strong> 「高度な方式を表示」にチェックを入れ、『[最強] React Fiber仮想DOM走破』などの特殊方式を試す。
         </div>
-        <div class="en">Try changing the "Send Method" to "CSS Click" or "Signal". For newline bugs (like in Teams), change "Text Input Method" to "Virtual Paste".</div>
       </div>
     </details>
 
     <details class="faq-accordion">
-      <summary class="faq-summary"><span class="ja">Q. 「🎯 自動取得」を使ってもボタンが登録されません。</span><span class="en">Q. "Auto Select" doesn't capture the button correctly.</span></summary>
+      <summary class="faq-summary"><span class="ja">Q. Unlimited版（有料版）の機能は試用期間が終わるとどうなりますか？</span><span class="en">Q. What happens to Unlimited features after the trial?</span></summary>
       <div class="faq-content">
-        <div class="ja">一部の特殊な動的サイト（SPAなど）では自動取得が効かない場合があります。その場合は、ブラウザの「検証（F12）」ツールを使ってボタンのCSSセレクタ（class名やidなど）をご自身で調べ、手動で入力していただく必要があります。</div>
-        <div class="en">On complex sites (like SPAs), auto-select might fail. You must use browser Inspect (F12) to find the CSS selector manually.</div>
+        <div class="ja">インストールから30日間のフリートライアルが終了すると、自動的に無料版（制限あり）に切り替わります。設定画面の機能のうち、「👑」マークがついたウィジェット機能や自動化機能、および3つ目以降のカスタムプロファイルがロックされて使用できなくなります。勝手に課金されることはありません。</div>
       </div>
     </details>
 
     <details class="faq-accordion">
-      <summary class="faq-summary"><span class="ja">Q. 翻訳ウィジェット(🌐)を押しても反応しません。</span><span class="en">Q. The translation widget doesn't work.</span></summary>
+      <summary class="faq-summary"><span class="ja">Q. 突然すべてのカスタムプロファイルに「🔒」がついて使えなくなりました。</span><span class="en">Q. Custom profiles suddenly got a lock icon "🔒".</span></summary>
       <div class="faq-content">
-        <div class="ja">翻訳機能は外部の翻訳API通信を使用しています。入力欄に文字が入っていないか、長文すぎる場合、または短時間に連続して押しすぎてAPIの制限に引っかかっている可能性があります。少し時間を置いてお試しください。</div>
-        <div class="en">The translation uses an external API. It may fail if the text is empty, too long, or if you hit the API rate limit by clicking too fast.</div>
+        <div class="ja">試用期間が終了し、かつご自身で追加したカスタムドメインが「3つ以上」登録されている場合に発生します。無料版ではカスタムドメインは最大2つまでしか有効化できません。設定画面上部の警告バナーから、「無料で使い続ける2つのドメイン」を選択していただくことでロックが解除されます。</div>
       </div>
     </details>
 
     <details class="faq-accordion">
-      <summary class="faq-summary"><span class="ja">Q. 復元ウィジェット(🕒)の文字数が足りない気がします。</span><span class="en">Q. The restore widget seems to miss some text.</span></summary>
+      <summary class="faq-summary"><span class="ja">Q. ライセンスキー（シリアルコード）を購入したのに認証でエラーになります。</span><span class="en">Q. License verification throws an error.</span></summary>
       <div class="faq-content">
-        <div class="ja">ブラウザの動作が重くなるのを完全に防ぐため、バックアップされるテキストは「最新の 50,000文字（5万文字）」までに安全制限されています。5万文字を超える超長文の場合は、末尾（または古い部分）がカットされている可能性があります。</div>
-        <div class="en">To prevent browser lag, the auto-backup safely limits the text to 50,000 characters. Extra long texts may be truncated.</div>
+        <div class="ja">
+          以下の点をご確認ください。<br>
+          ・<strong>入力ミス:</strong> 半角英数字ハイフンあり（ABCD-1234-EFGH-5678 の形式）で正しく入力されているか。<br>
+          ・<strong>通信エラー:</strong> 職場のネットワーク等で通信が遮断されていないか。「30秒経過」のメッセージが出た場合は、キャンセルせずに必ず同じシリアルキーのまま再送信を行ってください。<br>
+          ・<strong>認証上限:</strong> PCの買い替えや意図せぬアンインストール等による再認証は、1つのキーにつき「最大3回」までとなっています。上限を超えた場合は新規にご購入いただく必要があります。
+        </div>
       </div>
     </details>
 
     <details class="faq-accordion">
-      <summary class="faq-summary"><span class="ja">Q. 別のパソコンでも同じ設定を使えますか？</span><span class="en">Q. Can I use the same settings on a different computer?</span></summary>
+      <summary class="faq-summary"><span class="ja">Q. 会社のPCと自宅のPCなど、複数台で1つのライセンスを使えますか？</span><span class="en">Q. Can I use one license on multiple PCs?</span></summary>
       <div class="faq-content">
-        <div class="ja">はい。ご自宅のPCと会社のPCなど、同じGoogleアカウントでChromeにログインして「同期」をオンにしていれば、Unlimited版のライセンス認証状態は自動的に引き継がれます。<br>※細かいサイト設定（プロファイル）を移す場合は、設定画面下部の「エクスポート」でJSONファイルを保存し、別のPCで「インポート」してください。</div>
-        <div class="en">Yes. As long as you log into Chrome with the same Google Account and Sync is enabled, your Unlimited license status will sync.</div>
+        <div class="ja">はい。会社のPCとご自宅のPCで<strong>「同じGoogleアカウント（Chromeプロファイル）」でログインし、「拡張機能の同期」をON</strong>にしていれば、1つのライセンス認証状態が自動的に別のPCにも引き継がれます。同期を利用せず、手動で別々のPCに同じシリアルコードを入力して認証してしまうと「別のPC」としてカウントされ、再認証上限（3回）を無駄に消費してしまいますのでご注意ください。</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 拡張機能をアンインストール・再インストールしたらUnlimited版が消えました。</span><span class="en">Q. Reinstalling removed my Unlimited status.</span></summary>
+      <div class="faq-content">
+        <div class="ja">セキュリティ上、拡張機能を一度アンインストールすると端末固有の内部IDがリセットされるため、未認証状態に戻ります。再度設定画面の「🔑」アイコンから、お持ちのシリアルコードを入力して再認証を行ってください（この際、復旧用として認証回数上限を1回消費します。トラブル時以外は安易にアンインストールしないでください）。</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 入力窓（フローティングウィンドウ）が画面外に行ってしまい戻せません。</span><span class="en">Q. The floating window went off-screen.</span></summary>
+      <div class="faq-content">
+        <div class="ja">マルチモニターの切り替えなどでウィンドウが画面外に消えてしまった場合、拡張機能の設定画面を開き、対象プロファイルの「🪟 拡張入力窓」の項目から<strong>一度チェックを外して保存</strong>してください。位置情報がリセットされ、次回有効化した際に画面中央に戻ります。</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 送信した直後に、勝手にタブが閉じて（移動して）しまいます。</span><span class="en">Q. The tab closes or moves automatically after sending.</span></summary>
+      <div class="faq-content">
+        <div class="ja">プロファイル設定の「キー設定」内にある<strong>「🚀 送信後マクロ」</strong>が有効になっている可能性があります。設定画面を開き、対象サイトの送信後マクロの設定を「何もしない (基本)」に戻して保存してください。</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 送信後マクロで「次のタブへ移動」がループしません。</span><span class="en">Q. "Move to next tab" macro doesn't loop.</span></summary>
+      <div class="faq-content">
+        <div class="ja">「端のタブなら反対の端に戻る（ループ）」にチェックが入っていてもループしない場合、Chromeブラウザ自体がバックグラウンドタブの移動を制限している可能性があります。手動でタブをクリックしてアクティブにするか、ブラウザの再起動をお試しください。</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. NGワードを設定したのにすり抜けられてしまいます。</span><span class="en">Q. NG words are not blocked correctly.</span></summary>
+      <div class="faq-content">
+        <div class="ja">相手が「ば か」のように間にスペースを入れたり、全角・半角を変えたりしている可能性があります。設定画面の「🪄 正規表現ビルダー」を開き、「詳細ビルド」タブから「すり抜け対策（全角半角の同一視、スペース許容など）」にチェックを入れて登録し直してみてください。</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. AI連携機能（トーン調整）でエラーが出て使えません。</span><span class="en">Q. AI integration throws an error.</span></summary>
+      <div class="faq-content">
+        <div class="ja">
+          以下の原因が考えられます。<br>
+          <strong>1. APIキーの間違い:</strong> 登録したキーの文字列に余計な空白が含まれていないか確認してください。<br>
+          <strong>2. クレジット残高不足:</strong> OpenAIやAnthropicのAPIはプリペイド式の従量課金です。各社のダッシュボードにログインし、支払い登録と残高（クレジット）があるかを確認してください。ChatGPT Plus等の月額プランとは別のアカウント管理になります。<br>
+          <strong>3. モデル名のエラー:</strong> プロバイダの仕様変更によりモデル名が存在しない場合があります。「手動入力(カスタム)」から最新のモデル名を直接入力してお試しください。
+        </div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. AIトーン調整を使うと元の文章が消えてしまいます。</span><span class="en">Q. AI tone adjustment deletes original text.</span></summary>
+      <div class="faq-content">
+        <div class="ja">AIからの応答待ちの最中に、元の入力枠（または拡張入力窓）のテキストをユーザー自身が手動で書き換えたり消去したりすると、AIが書き換える対象を見失ってしまいます。AIの処理が終わるまではテキストエリアに触れないようにお願いします。</div>
+      </div>
+    </details>
+
+    <details class="faq-accordion">
+      <summary class="faq-summary"><span class="ja">Q. 定型文（テンプレート）ショートカットが別の拡張機能と競合してしまいます。</span><span class="en">Q. Template shortcut conflicts with other extensions.</span></summary>
+      <div class="faq-content">
+        <div class="ja">起動キー（デフォルトでは Ctrl + Space）がOSの言語切り替えや他のツールと被っている場合は、プロファイル設定の「⚡ 起動キー」項目から、別の組み合わせ（例：Alt + Shiftなど）に変更してください。</div>
       </div>
     </details>
 
     <details class="faq-accordion">
       <summary class="faq-summary"><span class="ja">Q. 会社のPCで「仮想キーボード(.bat)」が実行できません。</span><span class="en">Q. Virtual Keyboard Host gives an error on company PC.</span></summary>
       <div class="faq-content">
-        <div class="ja">第9章の「仮想キーボード連携（.batの実行）」機能はWindowsのレジストリを書き換えるため、会社の厳しいセキュリティ設定やウイルス対策ソフトでは弾かれることがあります。<br>その場合は連携機能のご利用を諦め、「送信方式」から『仮想ペースト』や『React Fiber方式』などのソフトウェア完結の方式をお試しください。</div>
-        <div class="en">Modifying the Windows Registry is often blocked by corporate security. Please use alternative JS-based methods like "React Fiber" instead.</div>
-      </div>
-    </details>
-
-    <details class="faq-accordion">
-      <summary class="faq-summary"><span class="ja">Q. Macでもすべての機能を使えますか？</span><span class="en">Q. Does it work fully on Mac?</span></summary>
-      <div class="faq-content">
-        <div class="ja">Chrome拡張機能としての基本機能（ショートカット統一、ウィジェット、カウントダウン等）はMacでも完全にご利用いただけます。<br>ただし、[Windows上級者向け]の「仮想キーボード連携（Native Host）」機能のみ、Windowsのシステム（.exe / .bat）に依存しているためMacではご利用いただけません。</div>
-        <div class="en">Yes, all core extension features work perfectly on Mac. However, the [Advanced] "Virtual Keyboard Host" is strictly Windows-only.</div>
-      </div>
-    </details>
-
-    <details class="faq-accordion">
-      <summary class="faq-summary"><span class="ja">Q. 拡張機能のアイコンがツールバーに見当たりません。</span><span class="en">Q. The extension icon is missing from the toolbar.</span></summary>
-      <div class="faq-content">
-        <div class="ja">Chromeの右上にある「パズルのピース」のアイコンをクリックし、リストの中から「Custom Enter Pro」の横にある「ピン留め（📌）」アイコンをクリックして青くすると、常にツールバーに表示されるようになります。</div>
-        <div class="en">Click the "Puzzle Piece" icon in the top right of Chrome, find "Custom Enter Pro", and click the "Pin" icon next to it.</div>
-      </div>
-    </details>
-
-    <details class="faq-accordion">
-      <summary class="faq-summary"><span class="ja">Q. 購入後に「自分の環境で動かなかった」場合、返金できますか？</span><span class="en">Q. Can I get a refund if it doesn't work on my setup?</span></summary>
-      <div class="faq-content">
-        <div class="ja">大変申し訳ございませんが、デジタル商品の性質上、ご購入後の返金は一切承っておりません。そのため、<strong>必ず30日間の無料トライアル期間中に、ご自身の環境（社内PCや対象のツール）で正常に動作するかをご確認いただいた上で</strong>ご購入をお願いいたします。</div>
-        <div class="en">We do not offer refunds due to the nature of digital goods. Please <strong>make sure to fully test the app during the 30-day free trial</strong> before purchasing.</div>
+        <div class="ja">第7章の「仮想キーボード連携（.batの実行）」機能はWindowsのレジストリを書き換えるため、会社の厳しいセキュリティ設定やウイルス対策ソフトでは弾かれることがあります。<br>その場合は連携機能のご利用を諦め、「送信方式」から『仮想ペースト』や『React Fiber方式』などのソフトウェア完結の方式をお試しください。</div>
       </div>
     </details>
     
   </div>
 
-</div> <footer>
+</div> 
+
+<footer>
   <p>Custom Enter Pro © 2026 - Official Manual & Support</p>
 </footer>
 
 <script>
-  // 言語の自動認識および手動切り替えロジック
+  // 言語切り替え
   function setLang(lang) {
     document.documentElement.lang = lang; 
     document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
     document.getElementById('btn-' + lang).classList.add('active');
   }
 
-  // アコーディオンの全開閉制御関数
+  // アコーディオンの全開閉制御
   function toggleAllDetails(className, open) {
     document.querySelectorAll('details.' + className).forEach(el => {
       if (open) {
@@ -778,13 +984,38 @@
     });
   }
 
-  // 検索・フィルタリング処理
+  // 逆引きガイド（タグによるフィルタリング）
+  function filterByTag(tagQuery) {
+    // ボタンのアクティブ状態リセット
+    document.querySelectorAll('.quick-btn').forEach(btn => btn.classList.remove('active'));
+    
+    // イベント発火元のボタンをアクティブにする
+    if (event && event.currentTarget) {
+      event.currentTarget.classList.add('active');
+    }
+
+    const items = document.querySelectorAll('.glossary-item');
+    items.forEach(item => {
+      const tags = (item.getAttribute('data-tags') || '').toLowerCase();
+      if (tagQuery === '' || tags.includes(tagQuery.toLowerCase())) {
+        item.style.display = 'flex';
+        item.style.animation = 'fadeIn 0.3s ease forwards';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  // 検索処理
   function setupSearch() {
     const inputJa = document.getElementById('searchInput');
     const inputEn = document.getElementById('searchInputEn');
     const items = document.querySelectorAll('.glossary-item');
 
-    const filterItems = (query) => {
+    const doSearch = (query) => {
+      // 検索時は逆引きボタンの選択を解除
+      document.querySelectorAll('.quick-btn').forEach(btn => btn.classList.remove('active'));
+      
       const q = query.toLowerCase();
       items.forEach(item => {
         const text = item.innerText.toLowerCase();
@@ -798,10 +1029,10 @@
       });
     };
 
-    inputJa.addEventListener('input', (e) => filterItems(e.target.value));
-    inputEn.addEventListener('input', (e) => filterItems(e.target.value));
+    inputJa.addEventListener('input', (e) => doSearch(e.target.value));
+    inputEn.addEventListener('input', (e) => doSearch(e.target.value));
 
-    // ★重要: 索引アイテムクリック時に、対象のブロックへスクロールし、アコーディオンを自動で開く処理
+    // 索引アイテムクリック時に対象ブロックへスクロール＆アコーディオンを開く
     items.forEach(item => {
       item.addEventListener('click', (e) => {
         const href = item.getAttribute('href');
@@ -810,7 +1041,6 @@
           const targetElem = document.getElementById(targetId);
           
           if(targetElem) {
-            // 対象ブロック内にある details (アコーディオン) を探し出して開く
             const accordion = targetElem.querySelector('details.manual-accordion');
             if(accordion) {
               accordion.setAttribute('open', '');
